@@ -224,7 +224,7 @@ dateIssued: date - Date bill was issued
     pip install -r requirements.txt
     ```
 
-4. Configure database connection:
+4. Configure database connection in a .env file:
     ```text
     DB_HOST={your database host}
     DB_PORT={your database port, typically 5432}

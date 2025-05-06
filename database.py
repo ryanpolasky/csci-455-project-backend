@@ -1,9 +1,13 @@
 # Created by Ryan Polasky - 5/1/25
 
 import os
+from dotenv import load_dotenv
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
+
+# Read .env file
+load_dotenv()
 
 # Database connection parameters
 DB_HOST = os.getenv("DB_HOST", "localhost")
