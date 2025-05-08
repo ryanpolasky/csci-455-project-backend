@@ -145,7 +145,7 @@ This system comprises a REST API and a staff GUI. The API enables medical facili
 ### Patient
 
 ```
-patientID: int - Primary key
+patientid: int - Primary key
 name: string - Patient name
 dob: date - Date of birth
 address: string - Patient address
@@ -155,28 +155,28 @@ insurance: string - Insurance information
 
 ### Staff
 ```
-staffID: int - Primary key
+staffid: int - Primary key
 name: string - Staff name
 role: string - Staff role
 ```
 
 ### Physician
 ```
-physicianID: int - Primary key
+physicianid: int - Primary key
 name: string - Physician name
 specialty: string - Medical specialty
 ```
 
 ### Nurse
 ```
-nurseID: int - Primary key
+nurseid: int - Primary key
 name: string - Nurse name
 ```
 
 ### Medical Record
 ```
-recordID: int - Primary key
-patientID: int - Foreign key referencing Patient
+recordid: int - Primary key
+patientid: int - Foreign key referencing Patient
 dateCreated: date - Record creation date
 allergies: string - Patient allergies
 medications: string - Current medications
@@ -185,34 +185,34 @@ diagnoses: string - Medical diagnoses
 
 ### Prescription
 ```
-prescriptionID: int - Primary key
-patientID: int - Foreign key referencing Patient
-physicianID: int - Foreign key referencing Physician
+prescriptionid: int - Primary key
+patientid: int - Foreign key referencing Patient
+physicianid: int - Foreign key referencing Physician
 medication: string - Prescribed medication
 dosage: string - Dosage instructions
 ```
 
 ### Appointment
 ```
-appointmentID: int - Primary key
-patientID: int - Foreign key referencing Patient
-physicianID: int - Foreign key referencing Physician
+appointmentid: int - Primary key
+patientid: int - Foreign key referencing Patient
+physicianid: int - Foreign key referencing Physician
 date: date - Appointment date
 time: time - Appointment time
 ```
 
 ### Lab Test
 ```
-testID: int - Primary key
-patientID: int - Foreign key referencing Patient
+testid: int - Primary key
+patientid: int - Foreign key referencing Patient
 testType: string - Type of lab test
 results: string - Test results
 ```
 
 ### Billing
 ```
-billID: int - Primary key
-patientID: int - Foreign key referencing Patient
+billid: int - Primary key
+patientid: int - Foreign key referencing Patient
 amountDue: float - Amount to be paid
 dateIssued: date - Date bill was issued
 ```
