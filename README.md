@@ -1,12 +1,14 @@
-# CSCI 455 Final Project - Backend
+# CSCI 455 Final Project - Backend and Frontend
 
-A comprehensive RESTful API for healthcare management built with FastAPI and PostgreSQL. This API provides functionality for managing patients, physicians, appointments, medical records, prescriptions, lab tests, and billing in a healthcare setting.
+A comprehensive RESTful API for healthcare management built with FastAPI and PostgreSQL, complemented by a staff interface built with Tkinter. This system provides functionality for managing various healthcare entities and allows staff to interact with the backend API.
 
 ## 🏥 Overview
 
-This REST API enables medical facilities to digitally manage their entire operation from patient intake to billing. The system provides clean, performant endpoints for all aspects of healthcare management using direct PostgreSQL queries with proper SQL injection protection.
+This system comprises a REST API and a staff GUI. The API enables medical facilities to digitally manage their entire operation from patient intake to billing, providing clean, performant endpoints using direct PostgreSQL queries with proper SQL injection protection. The staff interface provides a simple, easy-to-use graphical interface for interacting with these backend services.
 
 ## 🚀 Features
+
+### Backend Features
 
 - **Complete Healthcare Entity Management**: Manage patients, staff, physicians, nurses, medical records, appointments, prescriptions, lab tests, and billing
 - **RESTful API Design**: Follow REST best practices with appropriate HTTP methods and status codes
@@ -15,13 +17,23 @@ This REST API enables medical facilities to digitally manage their entire operat
 - **Comprehensive Documentation**: Auto-generated API documentation via Swagger UI
 - **Relationship Support**: Handles all relationships between healthcare entities
 
+### Frontend Features
+
+- **Tkinter GUI**: A simple graphical interface for staff interaction
+- **Schema Management Menus**: Dedicated menus for managing different healthcare entities (Appointments, Billing, LabTests, MedicalRecords, Nurses, Patients, Physicians, Prescriptions, Staff)
+- **CRUD Operations**: Functionality to Add, Remove, Search, Show all, and Update records for each schema
+- **Specific Operations**: Includes dedicated functions for tasks like adding diagnoses, updating lab test results, and calculating total billing for a patient
+- **Backend Interaction**: Communicates with the FastAPI backend using the `requests` library
+
 ## ⚙️ Technology Stack
 
-- **FastAPI**: Modern, high-performance web framework for building APIs
-- **PostgreSQL**: Advanced open-source relational database
-- **psycopg2**: PostgreSQL adapter for Python
-- **Pydantic**: Data validation and settings management
-- **Uvicorn**: ASGI server for serving the FastAPI application
+- **FastAPI**: Modern, high-performance web framework for building APIs (Backend)
+- **PostgreSQL**: Advanced open-source relational database (Backend)
+- **psycopg2**: PostgreSQL adapter for Python (Backend)
+- **Pydantic**: Data validation and settings management (Backend)
+- **Uvicorn**: ASGI server for serving the FastAPI application (Backend)
+- **Tkinter**: Standard Python GUI toolkit (Frontend)
+- **requests**: HTTP library for making API calls (Frontend)
 
 ## 📋 API Endpoints
 
@@ -233,13 +245,11 @@ dateIssued: date - Date bill was issued
     DB_PASSWORD={password}
     ```
    
-5. Run the API:
-    ```shell
-    uvicorn main:app --reload
-    ```
-   
-6. Either use this README file for API routes, or open your browser & navigate to http://localhost:8000/docs
-   
+5. Run the test program:
+   ```shell
+   python test_program.py
+   ```
+
 ## 📚 Best Practices Followed
 
 - **Separation of concerns**: Database connectivity is separate from API routes

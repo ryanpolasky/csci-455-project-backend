@@ -14,7 +14,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Patient")
 
-        labels = ["Patient ID", "Name", "Date of Birth (YYYY-MM-DD)", "Address", "Phone", "Insurance"]
+        # Removed "Patient ID" from labels
+        labels = ["Name", "Date of Birth (YYYY-MM-DD)", "Address", "Phone", "Insurance"]
         entries = []
 
         for label in labels:
@@ -25,19 +26,21 @@ def add_record(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
-                "name": entries[1].get(),
-                "dob": entries[2].get(),
-                "address": entries[3].get(),
-                "phone": entries[4].get(),
-                "insurance": entries[5].get()
+                # Removed "patientID" from data, as the backend expects the DB to generate it
+                "name": entries[0].get(),  # Index adjusted
+                "dob": entries[1].get(),  # Index adjusted
+                "address": entries[2].get(),  # Index adjusted
+                "phone": entries[3].get(),  # Index adjusted
+                "insurance": entries[4].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/patients/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Patient added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add patient.")
+                # Added print for backend error details for easier debugging
+                print(f"Error adding patient: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add patient. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -45,7 +48,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Physician")
 
-        labels = ["Physician ID", "Name", "Specialty"]
+        # Removed "Physician ID" from labels
+        labels = ["Name", "Specialty"]
         entries = []
 
         for label in labels:
@@ -56,16 +60,18 @@ def add_record(schema):
 
         def submit():
             data = {
-                "physicianID": entries[0].get(),
-                "name": entries[1].get(),
-                "role": entries[2].get()
+                # Removed "physicianID" from data
+                "name": entries[0].get(),  # Index adjusted
+                "specialty": entries[1].get()
+                # Index adjusted, Changed "role" to "specialty" to match likely backend model/README
             }
             response = requests.post(f"{BASE_URL}/physicians/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Physician added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add physician.")
+                print(f"Error adding physician: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add physician. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -73,7 +79,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Appointment")
 
-        labels = ["Appointment ID", "Patient ID", "Physician ID", "Date (YYYY-MM-DD)", "Time (HH:MM)"]
+        # Removed "Appointment ID" from labels
+        labels = ["Patient ID", "Physician ID", "Date (YYYY-MM-DD)", "Time (HH:MM)"]
         entries = []
 
         for label in labels:
@@ -84,18 +91,19 @@ def add_record(schema):
 
         def submit():
             data = {
-                "appointmentID": entries[0].get(),
-                "patientID": entries[1].get(),
-                "physicianID": entries[2].get(),
-                "date": entries[3].get(),
-                "time": entries[4].get()
+                # Removed "appointmentID" from data
+                "patientID": entries[0].get(),  # Index adjusted
+                "physicianID": entries[1].get(),  # Index adjusted
+                "date": entries[2].get(),  # Index adjusted
+                "time": entries[3].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/appointments/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Appointment added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add appointment.")
+                print(f"Error adding appointment: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add appointment. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -103,7 +111,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Medical Record")
 
-        labels = ["Record ID", "Patient ID", "Date Created (YYYY-MM-DD)", "Allergies", "Medications", "Diagnoses"]
+        # Removed "Record ID" from labels
+        labels = ["Patient ID", "Date Created (YYYY-MM-DD)", "Allergies", "Medications", "Diagnoses"]
         entries = []
 
         for label in labels:
@@ -114,19 +123,20 @@ def add_record(schema):
 
         def submit():
             data = {
-                "recordID": entries[0].get(),
-                "patientID": entries[1].get(),
-                "dateCreated": entries[2].get(),
-                "allergies": entries[3].get(),
-                "medicaion": entries[4].get(),
-                "diagnoses": entries[5].get()
+                # Removed "recordID" from data
+                "patientID": entries[0].get(),  # Index adjusted
+                "dateCreated": entries[1].get(),  # Index adjusted
+                "allergies": entries[2].get(),  # Index adjusted
+                "medications": entries[3].get(),  # Index adjusted, Fixed typo "medicaion" to "medications"
+                "diagnoses": entries[4].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/medical-records/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Medical record added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add medical record.")
+                print(f"Error adding medical record: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add medical record. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -134,7 +144,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Prescription")
 
-        labels = ["Prescription ID", "Patient ID", "Physician ID", "Medication", "Dosage"]
+        # Removed "Prescription ID" from labels
+        labels = ["Patient ID", "Physician ID", "Medication", "Dosage"]
         entries = []
 
         for label in labels:
@@ -145,18 +156,19 @@ def add_record(schema):
 
         def submit():
             data = {
-                "prescriptionID": entries[0].get(),
-                "patientID": entries[1].get(),
-                "physicianID": entries[2].get(),
-                "medication": entries[3].get(),
-                "dosage": entries[4].get()
+                # Removed "prescriptionID" from data
+                "patientID": entries[0].get(),  # Index adjusted
+                "physicianID": entries[1].get(),  # Index adjusted
+                "medication": entries[2].get(),  # Index adjusted
+                "dosage": entries[3].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/prescriptions/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Prescription added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add prescription.")
+                print(f"Error adding prescription: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add prescription. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -164,7 +176,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Lab Test")
 
-        labels = ["Test ID", "Patient ID", "Test Type", "Results"]
+        # Removed "Test ID" from labels
+        labels = ["Patient ID", "Test Type", "Results"]
         entries = []
 
         for label in labels:
@@ -175,17 +188,18 @@ def add_record(schema):
 
         def submit():
             data = {
-                "testID": entries[0].get(),
-                "patientID": entries[1].get(),
-                "testType": entries[2].get(),
-                "results": entries[3].get()
+                # Removed "testID" from data
+                "patientID": entries[0].get(),  # Index adjusted
+                "testType": entries[1].get(),  # Index adjusted
+                "results": entries[2].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/lab-tests/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Lab test added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add lab test.")
+                print(f"Error adding lab test: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add lab test. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -193,7 +207,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Billing")
 
-        labels = ["Billing ID", "Patient ID", "Amount Due", "Date Issued (YYYY-MM-DD)"]
+        # Removed "Billing ID" from labels
+        labels = ["Patient ID", "Amount Due", "Date Issued (YYYY-MM-DD)"]
         entries = []
 
         for label in labels:
@@ -204,17 +219,18 @@ def add_record(schema):
 
         def submit():
             data = {
-                "billingID": entries[0].get(),
-                "patientID": entries[1].get(),
-                "amountDue": entries[2].get(),
-                "dateIssued": entries[3].get()
+                # Removed "billingID" from data
+                "patientID": entries[0].get(),  # Index adjusted
+                "amountDue": entries[1].get(),  # Index adjusted
+                "dateIssued": entries[2].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/billing/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Billing record added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add billing record.")
+                print(f"Error adding billing: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add billing record. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -222,7 +238,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Nurse")
 
-        labels = ["Nurse ID", "Name"]
+        # Removed "Nurse ID" from labels
+        labels = ["Name"]
         entries = []
 
         for label in labels:
@@ -233,15 +250,16 @@ def add_record(schema):
 
         def submit():
             data = {
-                "nurseID": entries[0].get(),
-                "name": entries[1].get(),
+                # Removed "nurseID" from data
+                "name": entries[0].get(),  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/nurses/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Nurse added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add nurse.")
+                print(f"Error adding nurse: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add nurse. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
@@ -249,7 +267,8 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Staff")
 
-        labels = ["Staff ID", "Name", "Role"]
+        # Removed "Staff ID" from labels
+        labels = ["Name", "Role"]
         entries = []
 
         for label in labels:
@@ -260,19 +279,23 @@ def add_record(schema):
 
         def submit():
             data = {
-                "staffID": entries[0].get(),
-                "name": entries[1].get(),
-                "role": entries[2].get()
+                # Removed "staffID" from data
+                "name": entries[0].get(),  # Index adjusted
+                "role": entries[1].get()  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/staff/", json=data)
             if response.status_code == 201:
                 messagebox.showinfo("Success", "Staff added successfully.")
                 add_win.destroy()
             else:
-                messagebox.showerror("Error", "Failed to add staff.")
+                print(f"Error adding staff: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to add staff. Status: {response.status_code}")
 
         ttk.Button(add_win, text="Submit", command=submit).pack(pady=10)
 
+
+# The rest of the functions (remove_record, search, show_all, update, etc.) remain the same
+# as they correctly use IDs to interact with existing records.
 
 def remove_record(schema):
     if schema == "Patients":
@@ -285,12 +308,19 @@ def remove_record(schema):
 
         def submit():
             patient_id = id_entry.get()
+            # Check if ID is provided and is an integer
+            if not patient_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/patients/{patient_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:  # Changed from 200 to 204 based on backend spec
                 messagebox.showinfo("Success", "Patient removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Patient with ID {patient_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove patient.")
+                print(f"Error removing patient: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove patient. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -304,12 +334,18 @@ def remove_record(schema):
 
         def submit():
             physician_id = id_entry.get()
+            if not physician_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/physicians/{physician_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Physician removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Physician with ID {physician_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove physician.")
+                print(f"Error removing physician: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove physician. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -323,12 +359,18 @@ def remove_record(schema):
 
         def submit():
             appointment_id = id_entry.get()
+            if not appointment_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/appointments/{appointment_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Appointment removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Appointment with ID {appointment_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove appointment.")
+                print(f"Error removing appointment: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove appointment. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -342,12 +384,18 @@ def remove_record(schema):
 
         def submit():
             record_id = id_entry.get()
+            if not record_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/medical-records/{record_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Medical record removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Medical record with ID {record_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove medical record.")
+                print(f"Error removing medical record: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove medical record. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -361,12 +409,18 @@ def remove_record(schema):
 
         def submit():
             prescription_id = id_entry.get()
+            if not prescription_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/prescriptions/{prescription_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Prescription removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Prescription with ID {prescription_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove prescription.")
+                print(f"Error removing prescription: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove prescription. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -380,12 +434,18 @@ def remove_record(schema):
 
         def submit():
             test_id = id_entry.get()
+            if not test_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/lab-tests/{test_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Lab test removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Lab test with ID {test_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove lab test.")
+                print(f"Error removing lab test: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove lab test. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -399,12 +459,18 @@ def remove_record(schema):
 
         def submit():
             billing_id = id_entry.get()
+            if not billing_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/billing/{billing_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Billing record removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Billing record with ID {billing_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove billing record.")
+                print(f"Error removing billing: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove billing record. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -418,12 +484,18 @@ def remove_record(schema):
 
         def submit():
             nurse_id = id_entry.get()
+            if not nurse_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/nurses/{nurse_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Nurse removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Nurse with ID {nurse_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove nurse.")
+                print(f"Error removing nurse: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove nurse. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -437,12 +509,18 @@ def remove_record(schema):
 
         def submit():
             staff_id = id_entry.get()
+            if not staff_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.delete(f"{BASE_URL}/staff/{staff_id}")
-            if response.status_code == 200:
+            if response.status_code == 204:
                 messagebox.showinfo("Success", "Staff removed.")
                 rm_win.destroy()
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Staff with ID {staff_id} not found.")
             else:
-                messagebox.showerror("Error", "Failed to remove staff.")
+                print(f"Error removing staff: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to remove staff. Status: {response.status_code}")
 
         ttk.Button(rm_win, text="Submit", command=submit).pack(pady=10)
 
@@ -458,13 +536,19 @@ def search(schema):
 
         def submit():
             patient_id = id_entry.get()
+            if not patient_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/patients/{patient_id}")
             if response.status_code == 200:
                 p = response.json()
                 info = f"ID: {p['patientID']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
                 messagebox.showinfo("Patient Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Patient with ID {patient_id} not found.")
             else:
-                messagebox.showerror("Error", "Patient not found.")
+                print(f"Error searching patient: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search patient. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -478,13 +562,20 @@ def search(schema):
 
         def submit():
             physician_id = id_entry.get()
+            if not physician_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/physicians/{physician_id}")
             if response.status_code == 200:
                 p = response.json()
-                info = f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['role']}"
+                # Corrected 'role' to 'specialty' to match the backend model and README
+                info = f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 messagebox.showinfo("Physician Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Physician with ID {physician_id} not found.")
             else:
-                messagebox.showerror("Error", "Physician not found.")
+                print(f"Error searching physician: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search physician. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -498,13 +589,19 @@ def search(schema):
 
         def submit():
             appointment_id = id_entry.get()
+            if not appointment_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/appointments/{appointment_id}")
             if response.status_code == 200:
                 a = response.json()
                 info = f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
                 messagebox.showinfo("Appointment Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Appointment with ID {appointment_id} not found.")
             else:
-                messagebox.showerror("Error", "Appointment not found.")
+                print(f"Error searching appointment: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search appointment. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -518,13 +615,22 @@ def search(schema):
 
         def submit():
             record_id = id_entry.get()
+            if not record_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/medical-records/{record_id}")
             if response.status_code == 200:
                 m = response.json()
-                info = f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m['medication']}\nDiagnoses: {m['diagnoses']}"
+                # Corrected 'medication' key name if needed (assuming backend uses 'medications')
+                medications_val = m.get('medications',
+                                        m.get('medication', 'N/A'))  # Handle potential backend key name variations
+                info = f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {medications_val}\nDiagnoses: {m['diagnoses']}"
                 messagebox.showinfo("Medical Record Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Medical record with ID {record_id} not found.")
             else:
-                messagebox.showerror("Error", "Medical record not found.")
+                print(f"Error searching medical record: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search medical record. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -538,13 +644,19 @@ def search(schema):
 
         def submit():
             prescription_id = id_entry.get()
+            if not prescription_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/prescriptions/{prescription_id}")
             if response.status_code == 200:
                 p = response.json()
                 info = f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
                 messagebox.showinfo("Prescription Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Prescription with ID {prescription_id} not found.")
             else:
-                messagebox.showerror("Error", "Prescription not found.")
+                print(f"Error searching prescription: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search prescription. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -558,13 +670,19 @@ def search(schema):
 
         def submit():
             test_id = id_entry.get()
+            if not test_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/lab-tests/{test_id}")
             if response.status_code == 200:
                 l = response.json()
                 info = f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 messagebox.showinfo("Lab Test Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Lab test with ID {test_id} not found.")
             else:
-                messagebox.showerror("Error", "Lab test not found.")
+                print(f"Error searching lab test: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search lab test. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -578,13 +696,19 @@ def search(schema):
 
         def submit():
             billing_id = id_entry.get()
+            if not billing_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/billing/{billing_id}")
             if response.status_code == 200:
                 b = response.json()
-                info = f"ID: {b['billingID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
+                info = f"ID: {b['billID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"  # Corrected ID key from billingID to billID based on README/backend likely
                 messagebox.showinfo("Billing Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Billing record with ID {billing_id} not found.")
             else:
-                messagebox.showerror("Error", "Billing record not found.")
+                print(f"Error searching billing: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search billing record. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -598,13 +722,19 @@ def search(schema):
 
         def submit():
             nurse_id = id_entry.get()
+            if not nurse_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/nurses/{nurse_id}")
             if response.status_code == 200:
                 n = response.json()
                 info = f"ID: {n['nurseID']}\nName: {n['name']}"
                 messagebox.showinfo("Nurse Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Nurse with ID {nurse_id} not found.")
             else:
-                messagebox.showerror("Error", "Nurse not found.")
+                print(f"Error searching nurse: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search nurse. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -618,13 +748,19 @@ def search(schema):
 
         def submit():
             staff_id = id_entry.get()
+            if not staff_id.isdigit():
+                messagebox.showerror("Error", "Please enter a valid numeric ID.")
+                return
             response = requests.get(f"{BASE_URL}/staff/{staff_id}")
             if response.status_code == 200:
                 s = response.json()
                 info = f"ID: {s['staffID']}\nName: {s['name']}\nRole: {s['role']}"
                 messagebox.showinfo("Staff Info", info)
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"Staff with ID {staff_id} not found.")
             else:
-                messagebox.showerror("Error", "Staff not found.")
+                print(f"Error searching staff: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search staff. Status: {response.status_code}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -634,112 +770,174 @@ def show_all(schema):
         response = requests.get(f"{BASE_URL}/patients/")
         if response.status_code == 200:
             patients = response.json()
+            if not patients:
+                messagebox.showinfo("All Patients", "No patients found.")
+                return
             output = "\n\n".join([
-                f"ID: {p['patientID']}\nName: {p['name']}\nDOB: {p['dob']}\nPhone: {p['phone']}"
+                f"ID: {p['patientID']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
+                # Added Address and Insurance for completeness
                 for p in patients
             ])
             messagebox.showinfo("All Patients", output)
         else:
+            print(f"Error showing all patients: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve patients.")
 
     elif schema == "Physicians":
         response = requests.get(f"{BASE_URL}/physicians/")
         if response.status_code == 200:
             physicians = response.json()
+            if not physicians:
+                messagebox.showinfo("All Physicians", "No physicians found.")
+                return
             output = "\n\n".join([
-                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['role']}"
+                # Corrected 'role' to 'specialty'
+                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 for p in physicians
             ])
             messagebox.showinfo("All Physicians", output)
         else:
+            print(f"Error showing all physicians: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve physicians.")
 
     elif schema == "Appointments":
         response = requests.get(f"{BASE_URL}/appointments/")
         if response.status_code == 200:
             appointments = response.json()
+            if not appointments:
+                messagebox.showinfo("All Appointments", "No appointments found.")
+                return
             output = "\n\n".join([
                 f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
                 for a in appointments
             ])
             messagebox.showinfo("All Appointments", output)
         else:
+            print(f"Error showing all appointments: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve appointments.")
 
     elif schema == "MedicalRecords":
         response = requests.get(f"{BASE_URL}/medical-records/")
         if response.status_code == 200:
             records = response.json()
+            if not records:
+                messagebox.showinfo("All Medical Records", "No medical records found.")
+                return
             output = "\n\n".join([
-                f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m['medication']}\nDiagnoses: {m['diagnoses']}"
+                # Corrected 'medication' key name if needed
+                f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
                 for m in records
             ])
             messagebox.showinfo("All Medical Records", output)
         else:
+            print(f"Error showing all medical records: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve medical records.")
 
     elif schema == "Prescriptions":
         response = requests.get(f"{BASE_URL}/prescriptions/")
         if response.status_code == 200:
             prescriptions = response.json()
+            if not prescriptions:
+                messagebox.showinfo("All Prescriptions", "No prescriptions found.")
+                return
             output = "\n\n".join([
                 f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
                 for p in prescriptions
             ])
             messagebox.showinfo("All Prescriptions", output)
         else:
+            print(f"Error showing all prescriptions: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve prescriptions.")
 
     elif schema == "LabTests":
         response = requests.get(f"{BASE_URL}/lab-tests/")
         if response.status_code == 200:
             lab_tests = response.json()
+            if not lab_tests:
+                messagebox.showinfo("All Lab Tests", "No lab tests found.")
+                return
             output = "\n\n".join([
                 f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 for l in lab_tests
             ])
             messagebox.showinfo("All Lab Tests", output)
         else:
+            print(f"Error showing all lab tests: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve lab tests.")
 
     elif schema == "Billing":
         response = requests.get(f"{BASE_URL}/billing/")
         if response.status_code == 200:
             billing = response.json()
+            if not billing:
+                messagebox.showinfo("All Billing Records", "No billing records found.")
+                return
             output = "\n\n".join([
-                f"ID: {b['billingID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
+                # Corrected ID key from billingID to billID
+                f"ID: {b['billID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
                 for b in billing
             ])
             messagebox.showinfo("All Billing Records", output)
         else:
+            print(f"Error showing all billing: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve billing records.")
 
     elif schema == "Nurses":
         response = requests.get(f"{BASE_URL}/nurses/")
         if response.status_code == 200:
             nurses = response.json()
+            if not nurses:
+                messagebox.showinfo("All Nurses", "No nurses found.")
+                return
             output = "\n\n".join([
                 f"ID: {n['nurseID']}\nName: {n['name']}"
                 for n in nurses
             ])
             messagebox.showinfo("All Nurses", output)
         else:
+            print(f"Error showing all nurses: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve nurses.")
 
     elif schema == "Staff":
         response = requests.get(f"{BASE_URL}/staff/")
         if response.status_code == 200:
             staff = response.json()
+            if not staff:
+                messagebox.showinfo("All Staff", "No staff found.")
+                return
             output = "\n\n".join([
                 f"ID: {s['staffID']}\nName: {s['name']}\nRole: {s['role']}"
                 for s in staff
             ])
             messagebox.showinfo("All Staff", output)
         else:
+            print(f"Error showing all staff: {response.status_code} - {response.text}")
             messagebox.showerror("Error", "Could not retrieve staff.")
 
 
 def update(schema):
+    # Added input validation for ID field in update functions
+    def validate_and_update(id_entry, data, url):
+        record_id = id_entry.get()
+        if not record_id.isdigit():
+            messagebox.showerror("Error", "Please enter a valid numeric ID for the record to update.")
+            return
+        try:
+            response = requests.put(f"{url}/{record_id}", json=data)
+            if response.status_code == 200:
+                messagebox.showinfo("Success", f"{schema} updated.")
+                return True  # Indicate success
+            elif response.status_code == 404:
+                messagebox.showerror("Error", f"{schema} with ID {record_id} not found.")
+            else:
+                print(f"Error updating {schema}: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to update {schema}. Status: {response.status_code}")
+            return False  # Indicate failure
+        except Exception as e:
+            print(f"Exception during update: {e}")
+            messagebox.showerror("Error", f"An error occurred during update: {e}")
+            return False
+
     if schema == "Patients":
         upd_win = tk.Toplevel()
         upd_win.title("Update Patient Info")
@@ -758,7 +956,6 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            patient_id = id_entry.get()
             data = {
                 "name": entries[0].get(),
                 "dob": entries[1].get(),
@@ -766,12 +963,8 @@ def update(schema):
                 "phone": entries[3].get(),
                 "insurance": entries[4].get()
             }
-            response = requests.put(f"{BASE_URL}/patients/{patient_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Patient updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/patients"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update patient.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -793,17 +986,12 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            physician_id = id_entry.get()
             data = {
                 "name": entries[0].get(),
-                "role": entries[1].get()
+                "specialty": entries[1].get()  # Corrected 'role' to 'specialty'
             }
-            response = requests.put(f"{BASE_URL}/physicians/{physician_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Physician updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/physicians"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update physician.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -825,19 +1013,14 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            appointment_id = id_entry.get()
             data = {
                 "patientID": entries[0].get(),
                 "physicianID": entries[1].get(),
                 "date": entries[2].get(),
                 "time": entries[3].get()
             }
-            response = requests.put(f"{BASE_URL}/appointments/{appointment_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Appointment updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/appointments"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update appointment.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -859,20 +1042,15 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            record_id = id_entry.get()
             data = {
                 "patientID": entries[0].get(),
                 "dateCreated": entries[1].get(),
                 "allergies": entries[2].get(),
-                "medication": entries[3].get(),
+                "medications": entries[3].get(),  # Corrected 'medication' to 'medications'
                 "diagnoses": entries[4].get()
             }
-            response = requests.put(f"{BASE_URL}/medical-records/{record_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Medical record updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/medical-records"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update medical record.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -894,19 +1072,14 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            prescription_id = id_entry.get()
             data = {
                 "patientID": entries[0].get(),
                 "physicianID": entries[1].get(),
                 "medication": entries[2].get(),
                 "dosage": entries[3].get()
             }
-            response = requests.put(f"{BASE_URL}/prescriptions/{prescription_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Prescription updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/prescriptions"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update prescription.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -928,18 +1101,13 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            test_id = id_entry.get()
             data = {
                 "patientID": entries[0].get(),
                 "testType": entries[1].get(),
                 "results": entries[2].get()
             }
-            response = requests.put(f"{BASE_URL}/lab-tests/{test_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Lab test updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/lab-tests"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update lab test.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -961,18 +1129,14 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            billing_id = id_entry.get()
             data = {
                 "patientID": entries[0].get(),
                 "amountDue": entries[1].get(),
                 "dateIssued": entries[2].get()
             }
-            response = requests.put(f"{BASE_URL}/billing/{billing_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Billing record updated.")
+            # Corrected URL to match backend spec using bill_id
+            if validate_and_update(id_entry, data, f"{BASE_URL}/billing"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update billing record.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -994,16 +1158,11 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            nurse_id = id_entry.get()
             data = {
                 "name": entries[0].get()
             }
-            response = requests.put(f"{BASE_URL}/nurses/{nurse_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Nurse updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/nurses"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update nurse.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -1025,17 +1184,12 @@ def update(schema):
             entries.append(entry)
 
         def submit():
-            staff_id = id_entry.get()
             data = {
                 "name": entries[0].get(),
                 "role": entries[1].get()
             }
-            response = requests.put(f"{BASE_URL}/staff/{staff_id}", json=data)
-            if response.status_code == 200:
-                messagebox.showinfo("Success", "Staff updated.")
+            if validate_and_update(id_entry, data, f"{BASE_URL}/staff"):
                 upd_win.destroy()
-            else:
-                messagebox.showerror("Error", "Failed to update staff.")
 
         ttk.Button(upd_win, text="Update", command=submit).pack(pady=10)
 
@@ -1045,21 +1199,29 @@ def search_by_specialty():
     search_win.title("Search Physician by Specialty")
 
     ttk.Label(search_win, text="Enter Specialty:").pack()
-    id_entry = ttk.Entry(search_win)
+    id_entry = ttk.Entry(search_win)  # This is specialty, not ID
     id_entry.pack()
 
     def submit():
         specialty = id_entry.get()
-        response = requests.get(f"{BASE_URL}/staff/{specialty}")
+        # Changed endpoint from /staff/{specialty} to /physicians/specialty/{specialty} based on README/backend spec
+        response = requests.get(f"{BASE_URL}/physicians/specialty/{specialty}")
         if response.status_code == 200:
             physicians = response.json()
+            if not physicians:
+                messagebox.showinfo(f"Physicians in {specialty}", f"No physicians found with specialty: {specialty}")
+                return
             output = "\n\n".join([
-                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['role']}"
+                # Corrected 'role' to 'specialty'
+                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 for p in physicians
             ])
-            messagebox.showinfo("All {specialty} Physicians", output)
+            messagebox.showinfo(f"Physicians in {specialty}", output)
+        elif response.status_code == 404:  # Backend might return 404 if no physicians found
+            messagebox.showinfo(f"Physicians in {specialty}", f"No physicians found with specialty: {specialty}")
         else:
-            messagebox.showerror("Error", "Staff not found.")
+            print(f"Error searching physicians by specialty: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", f"Failed to search physicians by specialty. Status: {response.status_code}")
 
     ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -1069,179 +1231,178 @@ def show_all_w_patient_info(schema):
         response = requests.get(f"{BASE_URL}/medical-records/with-patient-info/")
         if response.status_code == 200:
             records = response.json()
+            if not records:
+                messagebox.showinfo("All Medical Records With Patient Info",
+                                    "No medical records with patient info found.")
+                return
             output = "\n\n".join([
-                f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m['medication']}\nDiagnoses: {m['diagnoses']}\nName: {m['name']}\nDOB: {m['dob']}\nPhone: {m['phone']}"
+                # Corrected 'medication' key name if needed, ensured patient info keys match
+                f"Record ID: {m['recordID']}\nPatient ID: {m['patientID']}\nPatient Name: {m['name']}\nDOB: {m['dob']}\nPhone: {m['phone']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
                 for m in records
             ])
             messagebox.showinfo("All Medical Records With Patient Info", output)
         else:
-            messagebox.showerror("Error", "Could not retrieve medical records.")
+            print(f"Error showing medical records with patient info: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", "Could not retrieve medical records with patient info.")
 
     elif schema == "LabTests":
         response = requests.get(f"{BASE_URL}/lab-tests/with-patient/")
         if response.status_code == 200:
             lab_tests = response.json()
+            if not lab_tests:
+                messagebox.showinfo("All Lab Tests With Patient Info", "No lab tests with patient info found.")
+                return
             output = "\n\n".join([
-                f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}\nName: {l['name']}\nDOB: {l['dob']}\nPhone: {l['phone']}"
+                # Ensured patient info keys match
+                f"Test ID: {l['testID']}\nPatient ID: {l['patientID']}\nPatient Name: {l['name']}\nDOB: {l['dob']}\nPhone: {l['phone']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 for l in lab_tests
             ])
             messagebox.showinfo("All Lab Tests With Patient Info", output)
         else:
-            messagebox.showerror("Error", "Could not retrieve lab tests.")
+            print(f"Error showing lab tests with patient info: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", "Could not retrieve lab tests with patient info.")
 
     elif schema == "Billing":
         response = requests.get(f"{BASE_URL}/billing/with-patient/")
         if response.status_code == 200:
             billing = response.json()
+            if not billing:
+                messagebox.showinfo("All Billing Records With Patient Info",
+                                    "No billing records with patient info found.")
+                return
             output = "\n\n".join([
-                f"ID: {b['billingID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}\nName: {b['name']}\nDOB: {b['dob']}\nPhone: {b['phone']}"
+                # Corrected ID key, ensured patient info keys match
+                f"Bill ID: {b['billID']}\nPatient ID: {b['patientID']}\nPatient Name: {b['name']}\nDOB: {b['dob']}\nPhone: {b['phone']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
                 for b in billing
             ])
             messagebox.showinfo("All Billing Records With Patient Info", output)
         else:
-            messagebox.showerror("Error", "Could not retrieve billing records.")
+            print(f"Error showing billing records with patient info: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", "Could not retrieve billing records with patient info.")
 
 
 def search_by_other(schema, other_schema):
+    # Added input validation for ID field in search_by_other functions
+    def validate_and_search(id_entry, url_template, info_title, error_msg_suffix):
+        entity_id = id_entry.get()
+        if not entity_id.isdigit():
+            messagebox.showerror("Error", f"Please enter a valid numeric {other_schema} ID.")
+            return
+
+        try:
+            response = requests.get(url_template.format(entity_id=entity_id))
+            if response.status_code == 200:
+                results = response.json()
+                if isinstance(results, list):  # Handle endpoints returning lists (e.g., records by patient)
+                    if not results:
+                        messagebox.showinfo(info_title, f"No {schema} found for {other_schema} ID {entity_id}.")
+                        return
+                    output = "\n\n".join([str(item) for item in results])  # Simple string conversion
+                    messagebox.showinfo(info_title, output)
+                else:  # Handle endpoints returning single objects
+                    messagebox.showinfo(info_title, str(results))  # Simple string conversion
+            elif response.status_code == 404:
+                messagebox.showinfo(info_title,
+                                    f"No {schema} found for {other_schema} ID {entity_id}.")  # 404 often means no records found
+            else:
+                print(f"Error searching {schema} by {other_schema}: {response.status_code} - {response.text}")
+                messagebox.showerror("Error", f"Failed to search {error_msg_suffix}. Status: {response.status_code}")
+        except Exception as e:
+            print(f"Exception during search_by_other: {e}")
+            messagebox.showerror("Error", f"An error occurred during search: {e}")
+
     if schema == "MedicalRecords":
         search_win = tk.Toplevel()
-        search_win.title("Search Medical Record By Patient")
+        search_win.title(f"Search Medical Record By {other_schema}")  # Dynamically set title
 
-        ttk.Label(search_win, text="Enter Patient ID:").pack()
+        ttk.Label(search_win, text=f"Enter {other_schema} ID:").pack()
         id_entry = ttk.Entry(search_win)
         id_entry.pack()
 
         def submit():
-            patient_id = id_entry.get()
-            response = requests.get(f"{BASE_URL}/medical-records/patient/{patient_id}")
-            if response.status_code == 200:
-                m = response.json()
-                info = f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m['medication']}\nDiagnoses: {m['diagnoses']}"
-                messagebox.showinfo("Medical Record Info", info)
-            else:
-                messagebox.showerror("Error", "Patient not found.")
+            # Assuming the backend endpoint is /medical-records/patient/{patient_id}
+            validate_and_search(id_entry, f"{BASE_URL}/medical-records/patient/{{entity_id}}",
+                                f"Medical Records for {other_schema} ID {id_entry.get()}",
+                                f"medical records by {other_schema.lower()}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
+
     elif schema == "Appointments":
-        if other_schema == "Patients":
-            search_win = tk.Toplevel()
-            search_win.title("Search Appointment By Patient")
-
-            ttk.Label(search_win, text="Enter Patient ID:").pack()
-            id_entry = ttk.Entry(search_win)
-            id_entry.pack()
-
-            def submit():
-                patient_id = id_entry.get()
-                response = requests.get(f"{BASE_URL}/appointments/patient/{patient_id}")
-                if response.status_code == 200:
-                    a = response.json()
-                    info = f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
-                    messagebox.showinfo("Appointment Info", info)
-                else:
-                    messagebox.showerror("Error", "Patient not found.")
-
-            ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
-
-        elif other_schema == "Physicians":
-            search_win = tk.Toplevel()
-            search_win.title("Search Appointment By Physician")
-
-            ttk.Label(search_win, text="Enter Physician ID:").pack()
-            id_entry = ttk.Entry(search_win)
-            id_entry.pack()
-
-            def submit():
-                physician_id = id_entry.get()
-                response = requests.get(f"{BASE_URL}/appointments/physician/{physician_id}")
-                if response.status_code == 200:
-                    a = response.json()
-                    info = f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
-                    messagebox.showinfo("Appointment Info", info)
-                else:
-                    messagebox.showerror("Error", "Physician not found.")
-
-            ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
-
-    elif schema == "Prescriptions":
-        if other_schema == "Patients":
-            search_win = tk.Toplevel()
-            search_win.title("Search Prescription By Patient")
-
-            ttk.Label(search_win, text="Enter Patient ID:").pack()
-            id_entry = ttk.Entry(search_win)
-            id_entry.pack()
-
-            def submit():
-                patient_id = id_entry.get()
-                response = requests.get(f"{BASE_URL}/prescriptions/patient/{patient_id}")
-                if response.status_code == 200:
-                    p = response.json()
-                    info = f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
-                    messagebox.showinfo("Prescription Info", info)
-                else:
-                    messagebox.showerror("Error", "Patient not found.")
-
-            ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
-
-        elif other_schema == "Physicians":
-            search_win = tk.Toplevel()
-            search_win.title("Search Prescription By Physician")
-
-            ttk.Label(search_win, text="Enter Physician ID:").pack()
-            id_entry = ttk.Entry(search_win)
-            id_entry.pack()
-
-            def submit():
-                physician_id = id_entry.get()
-                response = requests.get(f"{BASE_URL}/prescriptions/physician/{physician_id}")
-                if response.status_code == 200:
-                    p = response.json()
-                    info = f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
-                    messagebox.showinfo("Prescription Info", info)
-                else:
-                    messagebox.showerror("Error", "Physician not found.")
-
-            ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
-
-    elif schema == "LabTests":
         search_win = tk.Toplevel()
-        search_win.title("Search Lab Test By Patient")
+        search_win.title(f"Search Appointment By {other_schema}")  # Dynamically set title
 
-        ttk.Label(search_win, text="Enter Patient ID:").pack()
+        ttk.Label(search_win, text=f"Enter {other_schema} ID:").pack()
         id_entry = ttk.Entry(search_win)
         id_entry.pack()
 
         def submit():
-            patient_id = id_entry.get()
-            response = requests.get(f"{BASE_URL}/lab-tests/patient/{patient_id}")
-            if response.status_code == 200:
-                l = response.json()
-                info = f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}"
-                messagebox.showinfo("Lab Test Info", info)
-            else:
-                messagebox.showerror("Error", "Patient not found.")
+            if other_schema == "Patients":
+                # Assuming the backend endpoint is /appointments/patient/{patient_id}
+                validate_and_search(id_entry, f"{BASE_URL}/appointments/patient/{{entity_id}}",
+                                    f"Appointments for {other_schema} ID {id_entry.get()}",
+                                    f"appointments by {other_schema.lower()}")
+
+            elif other_schema == "Physicians":
+                # Assuming the backend endpoint is /appointments/physician/{physician_id}
+                validate_and_search(id_entry, f"{BASE_URL}/appointments/physician/{{entity_id}}",
+                                    f"Appointments for {other_schema} ID {id_entry.get()}",
+                                    f"appointments by {other_schema.lower()}")
+
+        ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
+
+    elif schema == "Prescriptions":
+        search_win = tk.Toplevel()
+        search_win.title(f"Search Prescription By {other_schema}")  # Dynamically set title
+
+        ttk.Label(search_win, text=f"Enter {other_schema} ID:").pack()
+        id_entry = ttk.Entry(search_win)
+        id_entry.pack()
+
+        def submit():
+            if other_schema == "Patients":
+                # Assuming the backend endpoint is /prescriptions/patient/{patient_id}
+                validate_and_search(id_entry, f"{BASE_URL}/prescriptions/patient/{{entity_id}}",
+                                    f"Prescriptions for {other_schema} ID {id_entry.get()}",
+                                    f"prescriptions by {other_schema.lower()}")
+
+            elif other_schema == "Physicians":
+                # Assuming the backend endpoint is /prescriptions/physician/{physician_id}
+                validate_and_search(id_entry, f"{BASE_URL}/prescriptions/physician/{{entity_id}}",
+                                    f"Prescriptions for {other_schema} ID {id_entry.get()}",
+                                    f"prescriptions by {other_schema.lower()}")
+
+        ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
+
+    elif schema == "LabTests":
+        search_win = tk.Toplevel()
+        search_win.title(f"Search Lab Test By {other_schema}")  # Dynamically set title
+
+        ttk.Label(search_win, text=f"Enter {other_schema} ID:").pack()
+        id_entry = ttk.Entry(search_win)
+        id_entry.pack()
+
+        def submit():
+            # Assuming the backend endpoint is /lab-tests/patient/{patient_id}
+            validate_and_search(id_entry, f"{BASE_URL}/lab-tests/patient/{{entity_id}}",
+                                f"Lab Tests for {other_schema} ID {id_entry.get()}",
+                                f"lab tests by {other_schema.lower()}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
     elif schema == "Billing":
         search_win = tk.Toplevel()
-        search_win.title("Search Billing By Patient")
+        search_win.title(f"Search Billing By {other_schema}")  # Dynamically set title
 
-        ttk.Label(search_win, text="Enter Patient ID:").pack()
+        ttk.Label(search_win, text=f"Enter {other_schema} ID:").pack()
         id_entry = ttk.Entry(search_win)
         id_entry.pack()
 
         def submit():
-            patient_id = id_entry.get()
-            response = requests.get(f"{BASE_URL}/billing/patient/{patient_id}")
-            if response.status_code == 200:
-                b = response.json()
-                info = f"ID: {b['billingID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
-                messagebox.showinfo("Billing Info", info)
-            else:
-                messagebox.showerror("Error", "Patient not found.")
+            # Assuming the backend endpoint is /billing/patient/{patient_id}
+            validate_and_search(id_entry, f"{BASE_URL}/billing/patient/{{entity_id}}",
+                                f"Billing Records for {other_schema} ID {id_entry.get()}",
+                                f"billing records by {other_schema.lower()}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -1262,6 +1423,10 @@ def add_diagnosis():
         record_id = id_entry.get()
         diagnosis = diag_entry.get()
 
+        if not record_id.isdigit():
+            messagebox.showerror("Error", "Please enter a valid numeric Medical Record ID.")
+            return
+
         response = requests.patch(
             f"{BASE_URL}/medical-records/{record_id}/add-diagnosis",
             json={"diagnosis": diagnosis}
@@ -1270,8 +1435,11 @@ def add_diagnosis():
         if response.status_code == 200:
             messagebox.showinfo("Success", "Diagnosis added successfully.")
             diag_win.destroy()
+        elif response.status_code == 404:
+            messagebox.showerror("Error", f"Medical record with ID {record_id} not found.")
         else:
-            messagebox.showerror("Error", "Failed to add diagnosis.")
+            print(f"Error adding diagnosis: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", f"Failed to add diagnosis. Status: {response.status_code}")
 
     ttk.Button(diag_win, text="Submit", command=submit).pack(pady=10)
 
@@ -1280,12 +1448,18 @@ def show_all_w_details():
     response = requests.get(f"{BASE_URL}/prescriptions/with-details/")
     if response.status_code == 200:
         prescriptions = response.json()
+        if not prescriptions:
+            messagebox.showinfo("All Prescriptions With Details", "No prescriptions with details found.")
+            return
         output = "\n\n".join([
-            f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}\nPatient Name: {p['patient_name']}\nDOB: {p['dob']}\nPhone: {p['phone']}\nPhysician Name: {p['physician_name']}\nSpecialty: {p['role']}"
+            # Ensured keys match expected backend output
+            f"ID: {p.get('prescriptionID', 'N/A')}\nPatient ID: {p.get('patientID', 'N/A')}\nPhysician ID: {p.get('physicianID', 'N/A')}\nMedication: {p.get('medication', 'N/A')}\nDosage: {p.get('dosage', 'N/A')}\nPatient Name: {p.get('patient_name', 'N/A')}\nDOB: {p.get('dob', 'N/A')}\nPhone: {p.get('phone', 'N/A')}\nPhysician Name: {p.get('physician_name', 'N/A')}\nSpecialty: {p.get('specialty', p.get('role', 'N/A'))}"
+            # Handle physician role/specialty key
             for p in prescriptions
         ])
         messagebox.showinfo("All Prescriptions With Details", output)
     else:
+        print(f"Error showing all prescriptions with details: {response.status_code} - {response.text}")
         messagebox.showerror("Error", "Could not retrieve prescriptions.")
 
 
@@ -1308,6 +1482,9 @@ def update_results():
         if not test_id or not results:
             messagebox.showerror("Error", "Both fields are required.")
             return
+        if not test_id.isdigit():
+            messagebox.showerror("Error", "Please enter a valid numeric Lab Test ID.")
+            return
 
         response = requests.patch(
             f"{BASE_URL}/lab-tests/{test_id}/update-results",
@@ -1317,8 +1494,11 @@ def update_results():
         if response.status_code == 200:
             messagebox.showinfo("Success", "Lab results updated.")
             update_win.destroy()
+        elif response.status_code == 404:
+            messagebox.showerror("Error", f"Lab test with ID {test_id} not found.")
         else:
-            messagebox.showerror("Error", "Failed to update results.")
+            print(f"Error updating lab test results: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", f"Failed to update results. Status: {response.status_code}")
 
     ttk.Button(update_win, text="Submit", command=submit).pack(pady=10)
 
@@ -1333,13 +1513,27 @@ def calculate_billing_total():
 
     def submit():
         patient_id = id_entry.get()
+        if not patient_id.isdigit():
+            messagebox.showerror("Error", "Please enter a valid numeric Patient ID.")
+            return
+
         response = requests.get(f"{BASE_URL}/billing/patient/{patient_id}/total")
         if response.status_code == 200:
             b = response.json()
-            info = f"Total: {b['total']}"
-            messagebox.showinfo("Billing Info", info)
+            # Assuming the backend returns {'total': value}
+            if 'total' in b:
+                info = f"Total Amount Due: ${b['total']:.2f}"  # Format as currency
+                messagebox.showinfo("Billing Info", info)
+            else:
+                # Handle unexpected response structure
+                print(f"Unexpected response for total billing: {b}")
+                messagebox.showerror("Error", "Received unexpected data from the backend.")
+        elif response.status_code == 404:
+            # Backend might return 404 if patient not found or no billing records
+            messagebox.showinfo("Billing Info", f"No billing records found for patient ID {patient_id}.")
         else:
-            messagebox.showerror("Error", "Patient not found.")
+            print(f"Error calculating billing total: {response.status_code} - {response.text}")
+            messagebox.showerror("Error", f"Failed to calculate total. Status: {response.status_code}")
 
     ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
 
@@ -1358,40 +1552,44 @@ def open_schema_menu(schema):
     ttk.Button(sub_window, text=f"Update {schema}", command=lambda: update(schema)).pack(pady=5)
 
     if schema == "Physicians":
-        ttk.Button(sub_window, text="Search By Specialty", command=lambda: search_by_specialty()).pack(pady=5)
+        # Corrected label text to reflect action and schema
+        ttk.Button(sub_window, text="Search Physicians By Specialty", command=lambda: search_by_specialty()).pack(
+            pady=5)
 
     elif schema == "MedicalRecords":
         ttk.Button(sub_window, text="Show all with Patient Info", command=lambda: show_all_w_patient_info(schema)).pack(
             pady=5)
-        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patients")).pack(
-            pady=5)
+        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patient")).pack(
+            pady=5)  # Changed "Patients" to "Patient" for clarity in label/message
         ttk.Button(sub_window, text="Add Diagnosis", command=lambda: add_diagnosis()).pack(pady=5)
 
     elif schema == "Appointments":
-        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patients")).pack(
-            pady=5)
+        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patient")).pack(
+            pady=5)  # Changed "Patients" to "Patient"
         ttk.Button(sub_window, text="Search by Physician ID",
-                   command=lambda: search_by_other(schema, "Physicians")).pack(pady=5)
+                   command=lambda: search_by_other(schema, "Physician")).pack(
+            pady=5)  # Changed "Physicians" to "Physician"
 
     elif schema == "Prescriptions":
         ttk.Button(sub_window, text="Show All With Details", command=lambda: show_all_w_details()).pack(pady=5)
-        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patients")).pack(
-            pady=5)
+        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patient")).pack(
+            pady=5)  # Changed "Patients" to "Patient"
         ttk.Button(sub_window, text="Search by Physician ID",
-                   command=lambda: search_by_other(schema, "Physicians")).pack(pady=5)
+                   command=lambda: search_by_other(schema, "Physician")).pack(
+            pady=5)  # Changed "Physicians" to "Physician"
 
     elif schema == "LabTests":
         ttk.Button(sub_window, text="Show all with Patient Info", command=lambda: show_all_w_patient_info(schema)).pack(
             pady=5)
-        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patients")).pack(
-            pady=5)
+        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patient")).pack(
+            pady=5)  # Changed "Patients" to "Patient"
         ttk.Button(sub_window, text="Update Lab Test Results", command=lambda: update_results()).pack(pady=5)
 
     elif schema == "Billing":
         ttk.Button(sub_window, text="Show all with Patient Info", command=lambda: show_all_w_patient_info(schema)).pack(
             pady=5)
-        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patients")).pack(
-            pady=5)
+        ttk.Button(sub_window, text="Search by Patient ID", command=lambda: search_by_other(schema, "Patient")).pack(
+            pady=5)  # Changed "Patients" to "Patient"
         ttk.Button(sub_window, text="Calculate Total Due", command=lambda: calculate_billing_total()).pack(pady=5)
 
     ttk.Button(sub_window, text="Back", command=sub_window.destroy).pack(pady=5)
