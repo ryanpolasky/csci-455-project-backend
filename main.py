@@ -70,5 +70,9 @@ def custom_repo_redirect():
     return RedirectResponse(url="https://github.com/ryanpolasky/csci-455-project-backend")
 
 
-if __name__ == "__main__":
+def run_backend():
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
+
+if __name__ == "__main__":
+    run_backend()

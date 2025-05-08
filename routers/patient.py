@@ -34,7 +34,7 @@ router = APIRouter(
 @router.post("/", response_model=PatientResponse, status_code=status.HTTP_201_CREATED)
 def create_patient(patient: PatientCreate):
     query = """
-    INSERT INTO patients (name, dob, address, phone, insurance) 
+    INSERT INTO patient (name, dob, address, phone, insurance) 
     VALUES (%s, %s, %s, %s, %s) 
     RETURNING patientID, name, dob, address, phone, insurance
     """
@@ -54,7 +54,7 @@ def create_patient(patient: PatientCreate):
 def get_patients(skip: int = 0, limit: int = 100):
     query = """
     SELECT patientID, name, dob, address, phone, insurance 
-    FROM patients 
+    FROM patient 
     ORDER BY patientID 
     LIMIT %s OFFSET %s
     """
@@ -66,7 +66,7 @@ def get_patients(skip: int = 0, limit: int = 100):
 def get_patient(patient_id: int):
     query = """
     SELECT patientID, name, dob, address, phone, insurance 
-    FROM patients 
+    FROM patient 
     WHERE patientID = %s
     """
     result = execute_query_single_row(query, (patient_id,))
@@ -83,7 +83,7 @@ def get_patient(patient_id: int):
 @router.put("/{patient_id}", response_model=PatientResponse)
 def update_patient(patient_id: int, patient: PatientCreate):
     query = """
-    UPDATE patients 
+    UPDATE patient 
     SET name = %s, dob = %s, address = %s, phone = %s, insurance = %s 
     WHERE patientID = %s 
     RETURNING patientID, name, dob, address, phone, insurance
@@ -102,7 +102,7 @@ def update_patient(patient_id: int, patient: PatientCreate):
 
 @router.delete("/{patient_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_patient(patient_id: int):
-    query = "DELETE FROM patients WHERE patientID = %s RETURNING patientID"
+    query = "DELETE FROM patient WHERE patientID = %s RETURNING patientID"
     result = execute_query_single_row(query, (patient_id,))
 
     if not result:
