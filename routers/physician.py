@@ -19,7 +19,7 @@ class PhysicianCreate(BaseModel):
 
 
 class PhysicianResponse(BaseModel):
-    physicianID: int
+    physicianid: int
     name: str
     specialty: str
 

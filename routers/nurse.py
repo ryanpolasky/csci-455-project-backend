@@ -18,7 +18,7 @@ class NurseCreate(BaseModel):
 
 
 class NurseResponse(BaseModel):
-    nurseID: int
+    nurseid: int
     name: str
 
 

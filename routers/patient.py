@@ -23,7 +23,7 @@ class PatientCreate(BaseModel):
 
 
 class PatientResponse(BaseModel):
-    patientID: int
+    patientid: int
     name: str
     dob: date
     address: str

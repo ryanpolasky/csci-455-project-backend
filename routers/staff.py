@@ -19,7 +19,7 @@ class StaffCreate(BaseModel):
 
 
 class StaffResponse(BaseModel):
-    staffID: int
+    staffid: int
     name: str
     role: str
 

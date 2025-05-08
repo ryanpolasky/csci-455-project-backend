@@ -15,14 +15,14 @@ logger = logging.getLogger("billing")
 
 
 class BillingCreate(BaseModel):
-    patientID: int
+    patientid: int
     amountDue: float
     dateIssued: Optional[date] = None
 
 
 class BillingResponse(BaseModel):
-    billID: int
-    patientID: int
+    billid: int
+    patientid: int
     amountDue: float
     dateIssued: date
 

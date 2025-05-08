@@ -15,15 +15,15 @@ logger = logging.getLogger("medical_records")
 
 
 class MedicalRecordCreate(BaseModel):
-    patientID: int
+    patientid: int
     allergies: Optional[str] = None
     medications: Optional[str] = None
     diagnoses: Optional[str] = None
 
 
 class MedicalRecordResponse(BaseModel):
-    recordID: int
-    patientID: int
+    recordid: int
+    patientid: int
     dateCreated: date
     allergies: Optional[str] = None
     medications: Optional[str] = None

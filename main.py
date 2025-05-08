@@ -1,5 +1,6 @@
 # Created by Ryan Polasky - 5/1/25
 import uvicorn
+import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
@@ -8,6 +9,8 @@ from routers import (
     prescription, appointment, lab_test, billing
 )
 from database import get_db_connection
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
 # Initialize the FastAPI app
 app = FastAPI(
@@ -71,7 +74,7 @@ def custom_repo_redirect():
 
 
 def run_backend():
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
 
 
 if __name__ == "__main__":

@@ -15,16 +15,16 @@ logger = logging.getLogger("appointments")
 
 
 class AppointmentCreate(BaseModel):
-    patientID: int
-    physicianID: int
+    patientid: int
+    physicianid: int
     date: date
     time: time
 
 
 class AppointmentResponse(BaseModel):
-    appointmentID: int
-    patientID: int
-    physicianID: int
+    appointmentid: int
+    patientid: int
+    physicianid: int
     date: date
     time: time
 

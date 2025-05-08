@@ -14,16 +14,16 @@ logger = logging.getLogger("prescriptions")
 
 
 class PrescriptionCreate(BaseModel):
-    patientID: int
-    physicianID: int
+    patientid: int
+    physicianid: int
     medication: str
     dosage: str
 
 
 class PrescriptionResponse(BaseModel):
-    prescriptionID: int
-    patientID: int
-    physicianID: int
+    prescriptionid: int
+    patientid: int
+    physicianid: int
     medication: str
     dosage: str
 

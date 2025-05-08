@@ -14,7 +14,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Patient")
 
-        # Removed "Patient ID" from labels
         labels = ["Name", "Date of Birth (YYYY-MM-DD)", "Address", "Phone", "Insurance"]
         entries = []
 
@@ -26,7 +25,6 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "patientID" from data, as the backend expects the DB to generate it
                 "name": entries[0].get(),  # Index adjusted
                 "dob": entries[1].get(),  # Index adjusted
                 "address": entries[2].get(),  # Index adjusted
@@ -48,7 +46,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Physician")
 
-        # Removed "Physician ID" from labels
         labels = ["Name", "Specialty"]
         entries = []
 
@@ -60,7 +57,6 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "physicianID" from data
                 "name": entries[0].get(),  # Index adjusted
                 "specialty": entries[1].get()
                 # Index adjusted, Changed "role" to "specialty" to match likely backend model/README
@@ -79,7 +75,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Appointment")
 
-        # Removed "Appointment ID" from labels
         labels = ["Patient ID", "Physician ID", "Date (YYYY-MM-DD)", "Time (HH:MM)"]
         entries = []
 
@@ -91,9 +86,8 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "appointmentID" from data
-                "patientID": entries[0].get(),  # Index adjusted
-                "physicianID": entries[1].get(),  # Index adjusted
+                "patientid": entries[0].get(),  # Index adjusted
+                "physicianid": entries[1].get(),  # Index adjusted
                 "date": entries[2].get(),  # Index adjusted
                 "time": entries[3].get()  # Index adjusted
             }
@@ -111,7 +105,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Medical Record")
 
-        # Removed "Record ID" from labels
         labels = ["Patient ID", "Date Created (YYYY-MM-DD)", "Allergies", "Medications", "Diagnoses"]
         entries = []
 
@@ -123,8 +116,7 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "recordID" from data
-                "patientID": entries[0].get(),  # Index adjusted
+                "patientid": entries[0].get(),  # Index adjusted
                 "dateCreated": entries[1].get(),  # Index adjusted
                 "allergies": entries[2].get(),  # Index adjusted
                 "medications": entries[3].get(),  # Index adjusted, Fixed typo "medicaion" to "medications"
@@ -144,7 +136,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Prescription")
 
-        # Removed "Prescription ID" from labels
         labels = ["Patient ID", "Physician ID", "Medication", "Dosage"]
         entries = []
 
@@ -156,9 +147,8 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "prescriptionID" from data
-                "patientID": entries[0].get(),  # Index adjusted
-                "physicianID": entries[1].get(),  # Index adjusted
+                "patientid": entries[0].get(),  # Index adjusted
+                "physicianid": entries[1].get(),  # Index adjusted
                 "medication": entries[2].get(),  # Index adjusted
                 "dosage": entries[3].get()  # Index adjusted
             }
@@ -176,7 +166,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Lab Test")
 
-        # Removed "Test ID" from labels
         labels = ["Patient ID", "Test Type", "Results"]
         entries = []
 
@@ -188,8 +177,7 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "testID" from data
-                "patientID": entries[0].get(),  # Index adjusted
+                "patientid": entries[0].get(),  # Index adjusted
                 "testType": entries[1].get(),  # Index adjusted
                 "results": entries[2].get()  # Index adjusted
             }
@@ -207,7 +195,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Billing")
 
-        # Removed "Billing ID" from labels
         labels = ["Patient ID", "Amount Due", "Date Issued (YYYY-MM-DD)"]
         entries = []
 
@@ -219,8 +206,7 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "billingID" from data
-                "patientID": entries[0].get(),  # Index adjusted
+                "patientid": entries[0].get(),  # Index adjusted
                 "amountDue": entries[1].get(),  # Index adjusted
                 "dateIssued": entries[2].get()  # Index adjusted
             }
@@ -238,7 +224,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Nurse")
 
-        # Removed "Nurse ID" from labels
         labels = ["Name"]
         entries = []
 
@@ -250,7 +235,6 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "nurseID" from data
                 "name": entries[0].get(),  # Index adjusted
             }
             response = requests.post(f"{BASE_URL}/nurses/", json=data)
@@ -267,7 +251,6 @@ def add_record(schema):
         add_win = tk.Toplevel()
         add_win.title("Add Staff")
 
-        # Removed "Staff ID" from labels
         labels = ["Name", "Role"]
         entries = []
 
@@ -279,7 +262,6 @@ def add_record(schema):
 
         def submit():
             data = {
-                # Removed "staffID" from data
                 "name": entries[0].get(),  # Index adjusted
                 "role": entries[1].get()  # Index adjusted
             }
@@ -542,7 +524,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/patients/{patient_id}")
             if response.status_code == 200:
                 p = response.json()
-                info = f"ID: {p['patientID']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
+                info = f"ID: {p['patientid']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
                 messagebox.showinfo("Patient Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Patient with ID {patient_id} not found.")
@@ -569,7 +551,7 @@ def search(schema):
             if response.status_code == 200:
                 p = response.json()
                 # Corrected 'role' to 'specialty' to match the backend model and README
-                info = f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
+                info = f"ID: {p['physicianid']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 messagebox.showinfo("Physician Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Physician with ID {physician_id} not found.")
@@ -595,7 +577,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/appointments/{appointment_id}")
             if response.status_code == 200:
                 a = response.json()
-                info = f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
+                info = f"ID: {a['appointmentid']}\nPatient ID: {a['patientid']}\nPhysician ID: {a['physicianid']}\nDate: {a['date']}\nTime: {a['time']}"
                 messagebox.showinfo("Appointment Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Appointment with ID {appointment_id} not found.")
@@ -624,7 +606,7 @@ def search(schema):
                 # Corrected 'medication' key name if needed (assuming backend uses 'medications')
                 medications_val = m.get('medications',
                                         m.get('medication', 'N/A'))  # Handle potential backend key name variations
-                info = f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {medications_val}\nDiagnoses: {m['diagnoses']}"
+                info = f"ID: {m['recordid']}\nPatient ID: {m['patientid']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {medications_val}\nDiagnoses: {m['diagnoses']}"
                 messagebox.showinfo("Medical Record Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Medical record with ID {record_id} not found.")
@@ -650,7 +632,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/prescriptions/{prescription_id}")
             if response.status_code == 200:
                 p = response.json()
-                info = f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
+                info = f"ID: {p['prescriptionid']}\nPatient ID: {p['patientid']}\nPhysician ID: {p['physicianid']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
                 messagebox.showinfo("Prescription Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Prescription with ID {prescription_id} not found.")
@@ -676,7 +658,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/lab-tests/{test_id}")
             if response.status_code == 200:
                 l = response.json()
-                info = f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}"
+                info = f"ID: {l['testid']}\nPatient ID: {l['patientid']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 messagebox.showinfo("Lab Test Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Lab test with ID {test_id} not found.")
@@ -702,7 +684,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/billing/{billing_id}")
             if response.status_code == 200:
                 b = response.json()
-                info = f"ID: {b['billID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"  # Corrected ID key from billingID to billID based on README/backend likely
+                info = f"ID: {b['billid']}\nPatient ID: {b['patientid']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"  # Corrected ID key from billingID to billid based on README/backend likely
                 messagebox.showinfo("Billing Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Billing record with ID {billing_id} not found.")
@@ -728,7 +710,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/nurses/{nurse_id}")
             if response.status_code == 200:
                 n = response.json()
-                info = f"ID: {n['nurseID']}\nName: {n['name']}"
+                info = f"ID: {n['nurseid']}\nName: {n['name']}"
                 messagebox.showinfo("Nurse Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Nurse with ID {nurse_id} not found.")
@@ -754,7 +736,7 @@ def search(schema):
             response = requests.get(f"{BASE_URL}/staff/{staff_id}")
             if response.status_code == 200:
                 s = response.json()
-                info = f"ID: {s['staffID']}\nName: {s['name']}\nRole: {s['role']}"
+                info = f"ID: {s['staffid']}\nName: {s['name']}\nRole: {s['role']}"
                 messagebox.showinfo("Staff Info", info)
             elif response.status_code == 404:
                 messagebox.showerror("Error", f"Staff with ID {staff_id} not found.")
@@ -774,7 +756,7 @@ def show_all(schema):
                 messagebox.showinfo("All Patients", "No patients found.")
                 return
             output = "\n\n".join([
-                f"ID: {p['patientID']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
+                f"ID: {p['patientid']}\nName: {p['name']}\nDOB: {p['dob']}\nAddress: {p['address']}\nPhone: {p['phone']}\nInsurance: {p['insurance']}"
                 # Added Address and Insurance for completeness
                 for p in patients
             ])
@@ -792,7 +774,7 @@ def show_all(schema):
                 return
             output = "\n\n".join([
                 # Corrected 'role' to 'specialty'
-                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
+                f"ID: {p['physicianid']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 for p in physicians
             ])
             messagebox.showinfo("All Physicians", output)
@@ -808,7 +790,7 @@ def show_all(schema):
                 messagebox.showinfo("All Appointments", "No appointments found.")
                 return
             output = "\n\n".join([
-                f"ID: {a['appointmentID']}\nPatient ID: {a['patientID']}\nPhysician ID: {a['physicianID']}\nDate: {a['date']}\nTime: {a['time']}"
+                f"ID: {a['appointmentid']}\nPatient ID: {a['patientid']}\nPhysician ID: {a['physicianid']}\nDate: {a['date']}\nTime: {a['time']}"
                 for a in appointments
             ])
             messagebox.showinfo("All Appointments", output)
@@ -825,7 +807,7 @@ def show_all(schema):
                 return
             output = "\n\n".join([
                 # Corrected 'medication' key name if needed
-                f"ID: {m['recordID']}\nPatient ID: {m['patientID']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
+                f"ID: {m['recordid']}\nPatient ID: {m['patientid']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
                 for m in records
             ])
             messagebox.showinfo("All Medical Records", output)
@@ -841,7 +823,7 @@ def show_all(schema):
                 messagebox.showinfo("All Prescriptions", "No prescriptions found.")
                 return
             output = "\n\n".join([
-                f"ID: {p['prescriptionID']}\nPatient ID: {p['patientID']}\nPhysician ID: {p['physicianID']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
+                f"ID: {p['prescriptionid']}\nPatient ID: {p['patientid']}\nPhysician ID: {p['physicianid']}\nMedication: {p['medication']}\nDosage: {p['dosage']}"
                 for p in prescriptions
             ])
             messagebox.showinfo("All Prescriptions", output)
@@ -857,7 +839,7 @@ def show_all(schema):
                 messagebox.showinfo("All Lab Tests", "No lab tests found.")
                 return
             output = "\n\n".join([
-                f"ID: {l['testID']}\nPatient ID: {l['patientID']}\nTest Type: {l['testType']}\nResults: {l['results']}"
+                f"ID: {l['testid']}\nPatient ID: {l['patientid']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 for l in lab_tests
             ])
             messagebox.showinfo("All Lab Tests", output)
@@ -873,8 +855,8 @@ def show_all(schema):
                 messagebox.showinfo("All Billing Records", "No billing records found.")
                 return
             output = "\n\n".join([
-                # Corrected ID key from billingID to billID
-                f"ID: {b['billID']}\nPatient ID: {b['patientID']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
+                # Corrected ID key from billingID to billid
+                f"ID: {b['billid']}\nPatient ID: {b['patientid']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
                 for b in billing
             ])
             messagebox.showinfo("All Billing Records", output)
@@ -890,7 +872,7 @@ def show_all(schema):
                 messagebox.showinfo("All Nurses", "No nurses found.")
                 return
             output = "\n\n".join([
-                f"ID: {n['nurseID']}\nName: {n['name']}"
+                f"ID: {n['nurseid']}\nName: {n['name']}"
                 for n in nurses
             ])
             messagebox.showinfo("All Nurses", output)
@@ -906,7 +888,7 @@ def show_all(schema):
                 messagebox.showinfo("All Staff", "No staff found.")
                 return
             output = "\n\n".join([
-                f"ID: {s['staffID']}\nName: {s['name']}\nRole: {s['role']}"
+                f"ID: {s['staffid']}\nName: {s['name']}\nRole: {s['role']}"
                 for s in staff
             ])
             messagebox.showinfo("All Staff", output)
@@ -1014,8 +996,8 @@ def update(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
-                "physicianID": entries[1].get(),
+                "patientid": entries[0].get(),
+                "physicianid": entries[1].get(),
                 "date": entries[2].get(),
                 "time": entries[3].get()
             }
@@ -1043,7 +1025,7 @@ def update(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
+                "patientid": entries[0].get(),
                 "dateCreated": entries[1].get(),
                 "allergies": entries[2].get(),
                 "medications": entries[3].get(),  # Corrected 'medication' to 'medications'
@@ -1073,8 +1055,8 @@ def update(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
-                "physicianID": entries[1].get(),
+                "patientid": entries[0].get(),
+                "physicianid": entries[1].get(),
                 "medication": entries[2].get(),
                 "dosage": entries[3].get()
             }
@@ -1102,7 +1084,7 @@ def update(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
+                "patientid": entries[0].get(),
                 "testType": entries[1].get(),
                 "results": entries[2].get()
             }
@@ -1130,7 +1112,7 @@ def update(schema):
 
         def submit():
             data = {
-                "patientID": entries[0].get(),
+                "patientid": entries[0].get(),
                 "amountDue": entries[1].get(),
                 "dateIssued": entries[2].get()
             }
@@ -1213,7 +1195,7 @@ def search_by_specialty():
                 return
             output = "\n\n".join([
                 # Corrected 'role' to 'specialty'
-                f"ID: {p['physicianID']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
+                f"ID: {p['physicianid']}\nName: {p['name']}\nSpecialty: {p['specialty']}"
                 for p in physicians
             ])
             messagebox.showinfo(f"Physicians in {specialty}", output)
@@ -1237,7 +1219,7 @@ def show_all_w_patient_info(schema):
                 return
             output = "\n\n".join([
                 # Corrected 'medication' key name if needed, ensured patient info keys match
-                f"Record ID: {m['recordID']}\nPatient ID: {m['patientID']}\nPatient Name: {m['name']}\nDOB: {m['dob']}\nPhone: {m['phone']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
+                f"Record ID: {m['recordid']}\nPatient ID: {m['patientid']}\nPatient Name: {m['name']}\nDOB: {m['dob']}\nPhone: {m['phone']}\nDate Created: {m['dateCreated']}\nAllergies: {m['allergies']}\nMedications: {m.get('medications', m.get('medication', 'N/A'))}\nDiagnoses: {m['diagnoses']}"
                 for m in records
             ])
             messagebox.showinfo("All Medical Records With Patient Info", output)
@@ -1254,7 +1236,7 @@ def show_all_w_patient_info(schema):
                 return
             output = "\n\n".join([
                 # Ensured patient info keys match
-                f"Test ID: {l['testID']}\nPatient ID: {l['patientID']}\nPatient Name: {l['name']}\nDOB: {l['dob']}\nPhone: {l['phone']}\nTest Type: {l['testType']}\nResults: {l['results']}"
+                f"Test ID: {l['testid']}\nPatient ID: {l['patientid']}\nPatient Name: {l['name']}\nDOB: {l['dob']}\nPhone: {l['phone']}\nTest Type: {l['testType']}\nResults: {l['results']}"
                 for l in lab_tests
             ])
             messagebox.showinfo("All Lab Tests With Patient Info", output)
@@ -1272,7 +1254,7 @@ def show_all_w_patient_info(schema):
                 return
             output = "\n\n".join([
                 # Corrected ID key, ensured patient info keys match
-                f"Bill ID: {b['billID']}\nPatient ID: {b['patientID']}\nPatient Name: {b['name']}\nDOB: {b['dob']}\nPhone: {b['phone']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
+                f"Bill ID: {b['billid']}\nPatient ID: {b['patientid']}\nPatient Name: {b['name']}\nDOB: {b['dob']}\nPhone: {b['phone']}\nAmount Due: {b['amountDue']}\nDate Issued: {b['dateIssued']}"
                 for b in billing
             ])
             messagebox.showinfo("All Billing Records With Patient Info", output)
@@ -1326,7 +1308,6 @@ def search_by_other(schema, other_schema):
                                 f"medical records by {other_schema.lower()}")
 
         ttk.Button(search_win, text="Search", command=submit).pack(pady=10)
-
 
     elif schema == "Appointments":
         search_win = tk.Toplevel()
@@ -1453,7 +1434,7 @@ def show_all_w_details():
             return
         output = "\n\n".join([
             # Ensured keys match expected backend output
-            f"ID: {p.get('prescriptionID', 'N/A')}\nPatient ID: {p.get('patientID', 'N/A')}\nPhysician ID: {p.get('physicianID', 'N/A')}\nMedication: {p.get('medication', 'N/A')}\nDosage: {p.get('dosage', 'N/A')}\nPatient Name: {p.get('patient_name', 'N/A')}\nDOB: {p.get('dob', 'N/A')}\nPhone: {p.get('phone', 'N/A')}\nPhysician Name: {p.get('physician_name', 'N/A')}\nSpecialty: {p.get('specialty', p.get('role', 'N/A'))}"
+            f"ID: {p.get('prescriptionid', 'N/A')}\nPatient ID: {p.get('patientid', 'N/A')}\nPhysician ID: {p.get('physicianid', 'N/A')}\nMedication: {p.get('medication', 'N/A')}\nDosage: {p.get('dosage', 'N/A')}\nPatient Name: {p.get('patient_name', 'N/A')}\nDOB: {p.get('dob', 'N/A')}\nPhone: {p.get('phone', 'N/A')}\nPhysician Name: {p.get('physician_name', 'N/A')}\nSpecialty: {p.get('specialty', p.get('role', 'N/A'))}"
             # Handle physician role/specialty key
             for p in prescriptions
         ])

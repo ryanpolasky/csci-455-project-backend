@@ -14,14 +14,14 @@ logger = logging.getLogger("lab_tests")
 
 
 class LabTestCreate(BaseModel):
-    patientID: int
+    patientid: int
     testType: str
     results: Optional[str] = None
 
 
 class LabTestResponse(BaseModel):
-    testID: int
-    patientID: int
+    testid: int
+    patientid: int
     testType: str
     results: Optional[str] = None
 
