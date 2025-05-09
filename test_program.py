@@ -38,11 +38,13 @@ def test_program():
         else:
             print(
                 f"Backend status is not 'success': {results.get('status') if results else 'None'}. Exiting...")
+            backend_process.terminate()
             exit(-1)
 
     except Exception as e:
         print(f"Error during backend status check: {e}")
         print("Could not confirm backend status. Exiting...")
+        backend_process.terminate()
         exit(-1)
 
 
