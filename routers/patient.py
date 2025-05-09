@@ -43,7 +43,7 @@ def create_patient(patient: PatientCreate):
     query = """
     INSERT INTO patient (name, dob, address, phone, insurance) 
     VALUES (%s, %s, %s, %s, %s) 
-    RETURNING patientID, name, dob, address, phone, insurance
+    RETURNING patientid, name, dob, address, phone, insurance
     """
     params = (patient.name, patient.dob, patient.address, patient.phone, patient.insurance)
     try:
@@ -68,9 +68,9 @@ def create_patient(patient: PatientCreate):
 def get_patients(skip: int = 0, limit: int = 100):
     logger.info(f"GET /patients - skip: {skip}, limit: {limit}")
     query = """
-    SELECT patientID, name, dob, address, phone, insurance 
+    SELECT patientid, name, dob, address, phone, insurance 
     FROM patient 
-    ORDER BY patientID 
+    ORDER BY patientid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -89,9 +89,9 @@ def get_patients(skip: int = 0, limit: int = 100):
 def get_patient(patient_id: int):
     logger.info(f"GET /patients/{patient_id}")
     query = """
-    SELECT patientID, name, dob, address, phone, insurance 
+    SELECT patientid, name, dob, address, phone, insurance 
     FROM patient 
-    WHERE patientID = %s
+    WHERE patientid = %s
     """
     try:
         result = execute_query_single_row(query, (patient_id,))
@@ -116,8 +116,8 @@ def update_patient(patient_id: int, patient: PatientCreate):
     query = """
     UPDATE patient 
     SET name = %s, dob = %s, address = %s, phone = %s, insurance = %s 
-    WHERE patientID = %s 
-    RETURNING patientID, name, dob, address, phone, insurance
+    WHERE patientid = %s 
+    RETURNING patientid, name, dob, address, phone, insurance
     """
     params = (patient.name, patient.dob, patient.address, patient.phone, patient.insurance, patient_id)
     try:
@@ -141,7 +141,7 @@ def update_patient(patient_id: int, patient: PatientCreate):
 @router.delete("/{patient_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_patient(patient_id: int):
     logger.info(f"DELETE /patients/{patient_id}")
-    query = "DELETE FROM patient WHERE patientID = %s RETURNING patientID"
+    query = "DELETE FROM patient WHERE patientid = %s RETURNING patientid"
     try:
         result = execute_query_single_row(query, (patient_id,))
     except Exception as e:

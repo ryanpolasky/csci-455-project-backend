@@ -34,9 +34,9 @@ router = APIRouter(
 def create_physician(physician: PhysicianCreate):
     logger.info(f"POST /physicians - Payload: {physician.dict()}")
     query = """
-    INSERT INTO physicians (name, specialty) 
+    INSERT INTO physician (name, specialty) 
     VALUES (%s, %s) 
-    RETURNING physicianID, name, specialty
+    RETURNING physicianid, name, specialty
     """
     params = (physician.name, physician.specialty)
     try:
@@ -61,9 +61,9 @@ def create_physician(physician: PhysicianCreate):
 def get_physicians(skip: int = 0, limit: int = 100):
     logger.info(f"GET /physicians - skip: {skip}, limit: {limit}")
     query = """
-    SELECT physicianID, name, specialty 
-    FROM physicians 
-    ORDER BY physicianID 
+    SELECT physicianid, name, specialty 
+    FROM physician 
+    ORDER BY physicianid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -82,9 +82,9 @@ def get_physicians(skip: int = 0, limit: int = 100):
 def get_physician(physician_id: int):
     logger.info(f"GET /physicians/{physician_id}")
     query = """
-    SELECT physicianID, name, specialty 
-    FROM physicians 
-    WHERE physicianID = %s
+    SELECT physicianid, name, specialty 
+    FROM physician 
+    WHERE physicianid = %s
     """
     try:
         result = execute_query_single_row(query, (physician_id,))
@@ -107,8 +107,8 @@ def get_physician(physician_id: int):
 def get_physicians_by_specialty(specialty: str):
     logger.info(f"GET /physicians/specialty/{specialty}")
     query = """
-    SELECT physicianID, name, specialty 
-    FROM physicians 
+    SELECT physicianid, name, specialty 
+    FROM physician 
     WHERE specialty = %s
     ORDER BY name
     """
@@ -128,10 +128,10 @@ def get_physicians_by_specialty(specialty: str):
 def update_physician(physician_id: int, physician: PhysicianCreate):
     logger.info(f"PUT /physicians/{physician_id} - Payload: {physician.dict()}")
     query = """
-    UPDATE physicians 
+    UPDATE physician 
     SET name = %s, specialty = %s 
-    WHERE physicianID = %s 
-    RETURNING physicianID, name, specialty
+    WHERE physicianid = %s 
+    RETURNING physicianid, name, specialty
     """
     params = (physician.name, physician.specialty, physician_id)
     try:
@@ -155,7 +155,7 @@ def update_physician(physician_id: int, physician: PhysicianCreate):
 @router.delete("/{physician_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_physician(physician_id: int):
     logger.info(f"DELETE /physicians/{physician_id}")
-    query = "DELETE FROM physicians WHERE physicianID = %s RETURNING physicianID"
+    query = "DELETE FROM physician WHERE physicianid = %s RETURNING physicianid"
     try:
         result = execute_query_single_row(query, (physician_id,))
     except Exception as e:

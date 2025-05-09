@@ -40,11 +40,11 @@ router = APIRouter(
 def create_lab_test(lab_test: LabTestCreate):
     logger.info(f"POST /lab-tests - Payload: {lab_test.dict()}")
     query = """
-    INSERT INTO lab_tests (patientID, testType, results) 
+    INSERT INTO labtest (patientid, testType, results) 
     VALUES (%s, %s, %s) 
-    RETURNING testID, patientID, testType, results
+    RETURNING testid, patientid, testType, results
     """
-    params = (lab_test.patientID, lab_test.testType, lab_test.results)
+    params = (lab_test.patientid, lab_test.testType, lab_test.results)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -67,9 +67,9 @@ def create_lab_test(lab_test: LabTestCreate):
 def get_lab_tests(skip: int = 0, limit: int = 100):
     logger.info(f"GET /lab-tests - skip: {skip}, limit: {limit}")
     query = """
-    SELECT testID, patientID, testType, results 
-    FROM lab_tests 
-    ORDER BY testID 
+    SELECT testid, patientid, testType, results 
+    FROM labtest
+    ORDER BY testid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -89,14 +89,14 @@ def get_lab_tests_with_patient(skip: int = 0, limit: int = 100):
     logger.info(f"GET /lab-tests/with-patient - skip: {skip}, limit: {limit}")
     query = """
     SELECT 
-        lt.testID, 
-        lt.patientID, 
+        lt.testid, 
+        lt.patientid, 
         lt.testType, 
         lt.results,
         p.name as patient_name
-    FROM lab_tests lt
-    JOIN patients p ON lt.patientID = p.patientID
-    ORDER BY lt.testID
+    FROM labtest lt
+    JOIN patient p ON lt.patientid = p.patientid
+    ORDER BY lt.testid
     LIMIT %s OFFSET %s
     """
     try:
@@ -115,9 +115,9 @@ def get_lab_tests_with_patient(skip: int = 0, limit: int = 100):
 def get_lab_test(test_id: int):
     logger.info(f"GET /lab-tests/{test_id}")
     query = """
-    SELECT testID, patientID, testType, results 
-    FROM lab_tests 
-    WHERE testID = %s
+    SELECT testid, patientid, testType, results 
+    FROM labtest
+    WHERE testid = %s
     """
     try:
         result = execute_query_single_row(query, (test_id,))
@@ -140,10 +140,10 @@ def get_lab_test(test_id: int):
 def get_patient_lab_tests(patient_id: int):
     logger.info(f"GET /lab-tests/patient/{patient_id}")
     query = """
-    SELECT testID, patientID, testType, results 
-    FROM lab_tests 
-    WHERE patientID = %s
-    ORDER BY testID
+    SELECT testid, patientid, testType, results 
+    FROM labtest
+    WHERE patientid = %s
+    ORDER BY testid
     """
     try:
         result = execute_query(query, (patient_id,))
@@ -161,12 +161,12 @@ def get_patient_lab_tests(patient_id: int):
 def update_lab_test(test_id: int, lab_test: LabTestCreate):
     logger.info(f"PUT /lab-tests/{test_id} - Payload: {lab_test.dict()}")
     query = """
-    UPDATE lab_tests 
-    SET patientID = %s, testType = %s, results = %s 
-    WHERE testID = %s 
-    RETURNING testID, patientID, testType, results
+    UPDATE labtest
+    SET patientid = %s, testType = %s, results = %s 
+    WHERE testid = %s 
+    RETURNING testid, patientid, testType, results
     """
-    params = (lab_test.patientID, lab_test.testType, lab_test.results, test_id)
+    params = (lab_test.patientid, lab_test.testType, lab_test.results, test_id)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -189,10 +189,10 @@ def update_lab_test(test_id: int, lab_test: LabTestCreate):
 def update_lab_test_results(test_id: int, results: str):
     logger.info(f"PATCH /lab-tests/{test_id}/update-results - results: {results}")
     query = """
-    UPDATE lab_tests 
+    UPDATE labtest
     SET results = %s 
-    WHERE testID = %s 
-    RETURNING testID, patientID, testType, results
+    WHERE testid = %s 
+    RETURNING testid, patientid, testType, results
     """
     try:
         result = execute_query_single_row(query, (results, test_id))
@@ -215,7 +215,7 @@ def update_lab_test_results(test_id: int, results: str):
 @router.delete("/{test_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_lab_test(test_id: int):
     logger.info(f"DELETE /lab-tests/{test_id}")
-    query = "DELETE FROM lab_tests WHERE testID = %s RETURNING testID"
+    query = "DELETE FROM labtest WHERE testid = %s RETURNING testid"
     try:
         result = execute_query_single_row(query, (test_id,))
     except Exception as e:

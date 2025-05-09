@@ -42,18 +42,18 @@ def create_billing(billing: BillingCreate):
     logger.info(f"POST /billing - Payload: {billing.dict()}")
     if billing.dateIssued:
         query = """
-        INSERT INTO billing (patientID, amountDue, dateIssued) 
+        INSERT INTO billing (patientid, amountDue, dateIssued) 
         VALUES (%s, %s, %s) 
-        RETURNING billID, patientID, amountDue, dateIssued
+        RETURNING billid, patientid, amountDue, dateIssued
         """
-        params = (billing.patientID, billing.amountDue, billing.dateIssued)
+        params = (billing.patientid, billing.amountDue, billing.dateIssued)
     else:
         query = """
-        INSERT INTO billing (patientID, amountDue) 
+        INSERT INTO billing (patientid, amountDue) 
         VALUES (%s, %s) 
-        RETURNING billID, patientID, amountDue, dateIssued
+        RETURNING billid, patientid, amountDue, dateIssued
         """
-        params = (billing.patientID, billing.amountDue)
+        params = (billing.patientid, billing.amountDue)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -76,9 +76,9 @@ def create_billing(billing: BillingCreate):
 def get_billings(skip: int = 0, limit: int = 100):
     logger.info(f"GET /billing - skip: {skip}, limit: {limit}")
     query = """
-    SELECT billID, patientID, amountDue, dateIssued 
+    SELECT billid, patientid, amountDue, dateIssued 
     FROM billing 
-    ORDER BY dateIssued DESC, billID 
+    ORDER BY dateIssued DESC, billid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -98,14 +98,14 @@ def get_billings_with_patient(skip: int = 0, limit: int = 100):
     logger.info(f"GET /billing/with-patient - skip: {skip}, limit: {limit}")
     query = """
     SELECT 
-        b.billID, 
-        b.patientID, 
+        b.billid, 
+        b.patientid, 
         b.amountDue, 
         b.dateIssued,
         p.name as patient_name
     FROM billing b
-    JOIN patients p ON b.patientID = p.patientID
-    ORDER BY b.dateIssued DESC, b.billID
+    JOIN patients p ON b.patientid = p.patientid
+    ORDER BY b.dateIssued DESC, b.billid
     LIMIT %s OFFSET %s
     """
     try:
@@ -124,9 +124,9 @@ def get_billings_with_patient(skip: int = 0, limit: int = 100):
 def get_billing(bill_id: int):
     logger.info(f"GET /billing/{bill_id}")
     query = """
-    SELECT billID, patientID, amountDue, dateIssued 
+    SELECT billid, patientid, amountDue, dateIssued 
     FROM billing 
-    WHERE billID = %s
+    WHERE billid = %s
     """
     try:
         result = execute_query_single_row(query, (bill_id,))
@@ -149,9 +149,9 @@ def get_billing(bill_id: int):
 def get_patient_billings(patient_id: int):
     logger.info(f"GET /billing/patient/{patient_id}")
     query = """
-    SELECT billID, patientID, amountDue, dateIssued 
+    SELECT billid, patientid, amountDue, dateIssued 
     FROM billing 
-    WHERE patientID = %s
+    WHERE patientid = %s
     ORDER BY dateIssued DESC
     """
     try:
@@ -172,7 +172,7 @@ def calculate_patient_total_billing(patient_id: int):
     query = """
     SELECT SUM(amountDue) as total
     FROM billing 
-    WHERE patientID = %s
+    WHERE patientid = %s
     """
     try:
         result = execute_query_single_row(query, (patient_id,))
@@ -194,12 +194,12 @@ def update_billing(bill_id: int, billing: BillingCreate):
     logger.info(f"PUT /billing/{bill_id} - Payload: {billing.dict()}")
     query = """
     UPDATE billing 
-    SET patientID = %s, amountDue = %s, dateIssued = %s 
-    WHERE billID = %s 
-    RETURNING billID, patientID, amountDue, dateIssued
+    SET patientid = %s, amountDue = %s, dateIssued = %s 
+    WHERE billid = %s 
+    RETURNING billid, patientid, amountDue, dateIssued
     """
     date_issued = billing.dateIssued if billing.dateIssued else date.today()
-    params = (billing.patientID, billing.amountDue, date_issued, bill_id)
+    params = (billing.patientid, billing.amountDue, date_issued, bill_id)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -221,7 +221,7 @@ def update_billing(bill_id: int, billing: BillingCreate):
 @router.delete("/{bill_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_billing(bill_id: int):
     logger.info(f"DELETE /billing/{bill_id}")
-    query = "DELETE FROM billing WHERE billID = %s RETURNING billID"
+    query = "DELETE FROM billing WHERE billid = %s RETURNING billid"
     try:
         result = execute_query_single_row(query, (bill_id,))
     except Exception as e:

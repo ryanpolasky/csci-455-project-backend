@@ -39,11 +39,11 @@ router = APIRouter(
 def create_appointment(appointment: AppointmentCreate):
     logger.info(f"POST /appointments - Payload: {appointment.dict()}")
     query = """
-    INSERT INTO appointments (patientID, physicianID, date, time) 
+    INSERT INTO appointment (patientid, physicianid, date, time) 
     VALUES (%s, %s, %s, %s) 
-    RETURNING appointmentID, patientID, physicianID, date, time
+    RETURNING appointmentid, patientid, physicianid, date, time
     """
-    params = (appointment.patientID, appointment.physicianID, appointment.date, appointment.time)
+    params = (appointment.patientid, appointment.physicianid, appointment.date, appointment.time)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -66,8 +66,8 @@ def create_appointment(appointment: AppointmentCreate):
 def get_appointments(skip: int = 0, limit: int = 100):
     logger.info(f"GET /appointments - skip: {skip}, limit: {limit}")
     query = """
-    SELECT appointmentID, patientID, physicianID, date, time 
-    FROM appointments 
+    SELECT appointmentid, patientid, physicianid, date, time 
+    FROM appointment 
     ORDER BY date, time 
     LIMIT %s OFFSET %s
     """
@@ -87,9 +87,9 @@ def get_appointments(skip: int = 0, limit: int = 100):
 def get_appointment(appointment_id: int):
     logger.info(f"GET /appointments/{appointment_id}")
     query = """
-    SELECT appointmentID, patientID, physicianID, date, time 
-    FROM appointments 
-    WHERE appointmentID = %s
+    SELECT appointmentid, patientid, physicianid, date, time 
+    FROM appointment
+    WHERE appointmentid = %s
     """
     try:
         result = execute_query_single_row(query, (appointment_id,))
@@ -112,9 +112,9 @@ def get_appointment(appointment_id: int):
 def get_patient_appointments(patient_id: int):
     logger.info(f"GET /appointments/patient/{patient_id}")
     query = """
-    SELECT appointmentID, patientID, physicianID, date, time 
-    FROM appointments 
-    WHERE patientID = %s 
+    SELECT appointmentid, patientid, physicianid, date, time 
+    FROM appointment
+    WHERE patientid = %s 
     ORDER BY date, time
     """
     try:
@@ -133,9 +133,9 @@ def get_patient_appointments(patient_id: int):
 def get_physician_appointments(physician_id: int):
     logger.info(f"GET /appointments/physician/{physician_id}")
     query = """
-    SELECT appointmentID, patientID, physicianID, date, time 
-    FROM appointments 
-    WHERE physicianID = %s 
+    SELECT appointmentid, patientid, physicianid, date, time 
+    FROM appointment
+    WHERE physicianid = %s 
     ORDER BY date, time
     """
     try:
@@ -153,7 +153,7 @@ def get_physician_appointments(physician_id: int):
 @router.delete("/{appointment_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_appointment(appointment_id: int):
     logger.info(f"DELETE /appointments/{appointment_id}")
-    query = "DELETE FROM appointments WHERE appointmentID = %s RETURNING appointmentID"
+    query = "DELETE FROM appointment WHERE appointmentid = %s RETURNING appointmentid"
     try:
         result = execute_query_single_row(query, (appointment_id,))
     except Exception as e:

@@ -44,11 +44,11 @@ router = APIRouter(
 def create_medical_record(record: MedicalRecordCreate):
     logger.info(f"POST /medical-records - Payload: {record.dict()}")
     query = """
-    INSERT INTO medical_records (patientID, allergies, medications, diagnoses) 
+    INSERT INTO medicalrecord (patientid, allergies, medications, diagnoses) 
     VALUES (%s, %s, %s, %s) 
-    RETURNING recordID, patientID, dateCreated, allergies, medications, diagnoses
+    RETURNING recordid, patientid, dateCreated, allergies, medications, diagnoses
     """
-    params = (record.patientID, record.allergies, record.medications, record.diagnoses)
+    params = (record.patientid, record.allergies, record.medications, record.diagnoses)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -71,8 +71,8 @@ def create_medical_record(record: MedicalRecordCreate):
 def get_medical_records(skip: int = 0, limit: int = 100):
     logger.info(f"GET /medical-records - skip: {skip}, limit: {limit}")
     query = """
-    SELECT recordID, patientID, dateCreated, allergies, medications, diagnoses 
-    FROM medical_records 
+    SELECT recordid, patientid, dateCreated, allergies, medications, diagnoses 
+    FROM medicalrecord 
     ORDER BY dateCreated DESC 
     LIMIT %s OFFSET %s
     """
@@ -92,10 +92,10 @@ def get_medical_records(skip: int = 0, limit: int = 100):
 def get_medical_records_with_patient_info(skip: int = 0, limit: int = 100):
     logger.info(f"GET /medical-records/with-patient-info - skip: {skip}, limit: {limit}")
     query = """
-    SELECT mr.recordID, mr.patientID, mr.dateCreated, mr.allergies, 
+    SELECT mr.recordid, mr.patientid, mr.dateCreated, mr.allergies, 
            mr.medications, mr.diagnoses, p.name as patient_name
-    FROM medical_records mr
-    JOIN patients p ON mr.patientID = p.patientID
+    FROM medicalrecord mr
+    JOIN patient p ON mr.patientid = p.patientid
     ORDER BY mr.dateCreated DESC
     LIMIT %s OFFSET %s
     """
@@ -115,9 +115,9 @@ def get_medical_records_with_patient_info(skip: int = 0, limit: int = 100):
 def get_medical_record(record_id: int):
     logger.info(f"GET /medical-records/{record_id}")
     query = """
-    SELECT recordID, patientID, dateCreated, allergies, medications, diagnoses 
-    FROM medical_records 
-    WHERE recordID = %s
+    SELECT recordid, patientid, dateCreated, allergies, medications, diagnoses 
+    FROM medicalrecord 
+    WHERE recordid = %s
     """
     try:
         result = execute_query_single_row(query, (record_id,))
@@ -140,9 +140,9 @@ def get_medical_record(record_id: int):
 def get_patient_medical_records(patient_id: int):
     logger.info(f"GET /medical-records/patient/{patient_id}")
     query = """
-    SELECT recordID, patientID, dateCreated, allergies, medications, diagnoses 
-    FROM medical_records 
-    WHERE patientID = %s 
+    SELECT recordid, patientid, dateCreated, allergies, medications, diagnoses 
+    FROM medicalrecord 
+    WHERE patientid = %s 
     ORDER BY dateCreated DESC
     """
     try:
@@ -161,12 +161,12 @@ def get_patient_medical_records(patient_id: int):
 def update_medical_record(record_id: int, record: MedicalRecordCreate):
     logger.info(f"PUT /medical-records/{record_id} - Payload: {record.dict()}")
     query = """
-    UPDATE medical_records 
-    SET patientID = %s, allergies = %s, medications = %s, diagnoses = %s 
-    WHERE recordID = %s 
-    RETURNING recordID, patientID, dateCreated, allergies, medications, diagnoses
+    UPDATE medicalrecord 
+    SET patientid = %s, allergies = %s, medications = %s, diagnoses = %s 
+    WHERE recordid = %s 
+    RETURNING recordid, patientid, dateCreated, allergies, medications, diagnoses
     """
-    params = (record.patientID, record.allergies, record.medications, record.diagnoses, record_id)
+    params = (record.patientid, record.allergies, record.medications, record.diagnoses, record_id)
     try:
         result = execute_query_single_row(query, params)
     except Exception as e:
@@ -189,7 +189,7 @@ def update_medical_record(record_id: int, record: MedicalRecordCreate):
 def add_diagnosis(record_id: int, diagnosis: str):
     logger.info(f"PATCH /medical-records/{record_id}/add-diagnosis - diagnosis: {diagnosis}")
     get_query = """
-    SELECT diagnoses FROM medical_records WHERE recordID = %s
+    SELECT diagnoses FROM medicalrecord WHERE recordid = %s
     """
     try:
         current = execute_query_single_row(get_query, (record_id,))
@@ -211,10 +211,10 @@ def add_diagnosis(record_id: int, diagnosis: str):
     else:
         new_diagnoses = diagnosis
     update_query = """
-    UPDATE medical_records 
+    UPDATE medicalrecord 
     SET diagnoses = %s 
-    WHERE recordID = %s 
-    RETURNING recordID, patientID, dateCreated, allergies, medications, diagnoses
+    WHERE recordid = %s 
+    RETURNING recordid, patientid, dateCreated, allergies, medications, diagnoses
     """
     try:
         result = execute_query_single_row(update_query, (new_diagnoses, record_id))

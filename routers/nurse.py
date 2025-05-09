@@ -32,9 +32,9 @@ router = APIRouter(
 def create_nurse(nurse: NurseCreate):
     logger.info(f"POST /nurses - Payload: {nurse.dict()}")
     query = """
-    INSERT INTO nurses (name) 
+    INSERT INTO nurse (name) 
     VALUES (%s) 
-    RETURNING nurseID, name
+    RETURNING nurseid, name
     """
     try:
         result = execute_query_single_row(query, (nurse.name,))
@@ -58,9 +58,9 @@ def create_nurse(nurse: NurseCreate):
 def get_nurses(skip: int = 0, limit: int = 100):
     logger.info(f"GET /nurses - skip: {skip}, limit: {limit}")
     query = """
-    SELECT nurseID, name 
-    FROM nurses 
-    ORDER BY nurseID 
+    SELECT nurseid, name 
+    FROM nurse 
+    ORDER BY nurseid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -79,9 +79,9 @@ def get_nurses(skip: int = 0, limit: int = 100):
 def get_nurse(nurse_id: int):
     logger.info(f"GET /nurses/{nurse_id}")
     query = """
-    SELECT nurseID, name 
-    FROM nurses 
-    WHERE nurseID = %s
+    SELECT nurseid, name 
+    FROM nurse
+    WHERE nurseid = %s
     """
     try:
         result = execute_query_single_row(query, (nurse_id,))
@@ -104,10 +104,10 @@ def get_nurse(nurse_id: int):
 def update_nurse(nurse_id: int, nurse: NurseCreate):
     logger.info(f"PUT /nurses/{nurse_id} - Payload: {nurse.dict()}")
     query = """
-    UPDATE nurses 
+    UPDATE nurse
     SET name = %s 
-    WHERE nurseID = %s 
-    RETURNING nurseID, name
+    WHERE nurseid = %s 
+    RETURNING nurseid, name
     """
     try:
         result = execute_query_single_row(query, (nurse.name, nurse_id))
@@ -130,7 +130,7 @@ def update_nurse(nurse_id: int, nurse: NurseCreate):
 @router.delete("/{nurse_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_nurse(nurse_id: int):
     logger.info(f"DELETE /nurses/{nurse_id}")
-    query = "DELETE FROM nurses WHERE nurseID = %s RETURNING nurseID"
+    query = "DELETE FROM nurse WHERE nurseid = %s RETURNING nurseid"
     try:
         result = execute_query_single_row(query, (nurse_id,))
     except Exception as e:

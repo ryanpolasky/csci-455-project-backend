@@ -43,9 +43,9 @@ router = APIRouter(
 def create_prescription(prescription: PrescriptionCreate):
     logger.info(f"POST /prescriptions - Payload: {prescription.dict()}")
     query = """
-    INSERT INTO prescriptions (patientID, physicianID, medication, dosage) 
+    INSERT INTO prescription (patientid, physicianid, medication, dosage) 
     VALUES (%s, %s, %s, %s) 
-    RETURNING prescriptionID, patientID, physicianID, medication, dosage
+    RETURNING prescriptionid, patientid, physicianid, medication, dosage
     """
     params = (
         prescription.patientID,
@@ -75,9 +75,9 @@ def create_prescription(prescription: PrescriptionCreate):
 def get_prescriptions(skip: int = 0, limit: int = 100):
     logger.info(f"GET /prescriptions - skip: {skip}, limit: {limit}")
     query = """
-    SELECT prescriptionID, patientID, physicianID, medication, dosage
-    FROM prescriptions 
-    ORDER BY prescriptionID 
+    SELECT prescriptionid, patientid, physicianid, medication, dosage
+    FROM prescription
+    ORDER BY prescriptionid
     LIMIT %s OFFSET %s
     """
     try:
@@ -97,17 +97,17 @@ def get_prescriptions_with_details(skip: int = 0, limit: int = 100):
     logger.info(f"GET /prescriptions/with-details - skip: {skip}, limit: {limit}")
     query = """
     SELECT 
-        p.prescriptionID, 
-        p.patientID, 
-        p.physicianID, 
+        p.prescriptionid, 
+        p.patientid, 
+        p.physicianid, 
         p.medication, 
         p.dosage,
         pt.name as patient_name,
         ph.name as physician_name
-    FROM prescriptions p
-    JOIN patients pt ON p.patientID = pt.patientID
-    JOIN physicians ph ON p.physicianID = ph.physicianID
-    ORDER BY p.prescriptionID
+    FROM prescription p
+    JOIN patient pt ON p.patientid = pt.patientid
+    JOIN physician ph ON p.physicianid = ph.physicianid
+    ORDER BY p.prescriptionid
     LIMIT %s OFFSET %s
     """
     try:
@@ -126,9 +126,9 @@ def get_prescriptions_with_details(skip: int = 0, limit: int = 100):
 def get_prescription(prescription_id: int):
     logger.info(f"GET /prescriptions/{prescription_id}")
     query = """
-    SELECT prescriptionID, patientID, physicianID, medication, dosage
-    FROM prescriptions 
-    WHERE prescriptionID = %s
+    SELECT prescriptionid, patientid, physicianid, medication, dosage
+    FROM prescription 
+    WHERE prescriptionid = %s
     """
     try:
         result = execute_query_single_row(query, (prescription_id,))
@@ -151,10 +151,10 @@ def get_prescription(prescription_id: int):
 def get_patient_prescriptions(patient_id: int):
     logger.info(f"GET /prescriptions/patient/{patient_id}")
     query = """
-    SELECT prescriptionID, patientID, physicianID, medication, dosage
-    FROM prescriptions 
-    WHERE patientID = %s
-    ORDER BY prescriptionID
+    SELECT prescriptionid, patientid, physicianid, medication, dosage
+    FROM prescription 
+    WHERE patientid = %s
+    ORDER BY prescriptionid
     """
     try:
         result = execute_query(query, (patient_id,))
@@ -172,10 +172,10 @@ def get_patient_prescriptions(patient_id: int):
 def get_physician_prescriptions(physician_id: int):
     logger.info(f"GET /prescriptions/physician/{physician_id}")
     query = """
-    SELECT prescriptionID, patientID, physicianID, medication, dosage
-    FROM prescriptions 
-    WHERE physicianID = %s
-    ORDER BY prescriptionID
+    SELECT prescriptionid, patientid, physicianid, medication, dosage
+    FROM prescription 
+    WHERE physicianid = %s
+    ORDER BY prescriptionid
     """
     try:
         result = execute_query(query, (physician_id,))
@@ -193,10 +193,10 @@ def get_physician_prescriptions(physician_id: int):
 def update_prescription(prescription_id: int, prescription: PrescriptionCreate):
     logger.info(f"PUT /prescriptions/{prescription_id} - Payload: {prescription.dict()}")
     query = """
-    UPDATE prescriptions 
-    SET patientID = %s, physicianID = %s, medication = %s, dosage = %s 
-    WHERE prescriptionID = %s 
-    RETURNING prescriptionID, patientID, physicianID, medication, dosage
+    UPDATE prescription 
+    SET patientid = %s, physicianid = %s, medication = %s, dosage = %s 
+    WHERE prescriptionid = %s 
+    RETURNING prescriptionid, patientid, physicianid, medication, dosage
     """
     params = (
         prescription.patientID,
@@ -226,7 +226,7 @@ def update_prescription(prescription_id: int, prescription: PrescriptionCreate):
 @router.delete("/{prescription_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_prescription(prescription_id: int):
     logger.info(f"DELETE /prescriptions/{prescription_id}")
-    query = "DELETE FROM prescriptions WHERE prescriptionID = %s RETURNING prescriptionID"
+    query = "DELETE FROM prescription WHERE prescriptionid = %s RETURNING prescriptionid"
     try:
         result = execute_query_single_row(query, (prescription_id,))
     except Exception as e:

@@ -36,7 +36,7 @@ def create_staff(staff: StaffCreate):
     query = """
     INSERT INTO staff (name, role) 
     VALUES (%s, %s) 
-    RETURNING staffID, name, role
+    RETURNING staffid, name, role
     """
     params = (staff.name, staff.role)
     try:
@@ -61,9 +61,9 @@ def create_staff(staff: StaffCreate):
 def get_all_staff(skip: int = 0, limit: int = 100):
     logger.info(f"GET /staff - skip: {skip}, limit: {limit}")
     query = """
-    SELECT staffID, name, role 
+    SELECT staffid, name, role 
     FROM staff 
-    ORDER BY staffID 
+    ORDER BY staffid 
     LIMIT %s OFFSET %s
     """
     try:
@@ -82,9 +82,9 @@ def get_all_staff(skip: int = 0, limit: int = 100):
 def get_staff(staff_id: int):
     logger.info(f"GET /staff/{staff_id}")
     query = """
-    SELECT staffID, name, role 
+    SELECT staffid, name, role 
     FROM staff 
-    WHERE staffID = %s
+    WHERE staffid = %s
     """
     try:
         result = execute_query_single_row(query, (staff_id,))
@@ -109,8 +109,8 @@ def update_staff(staff_id: int, staff: StaffCreate):
     query = """
     UPDATE staff 
     SET name = %s, role = %s 
-    WHERE staffID = %s 
-    RETURNING staffID, name, role
+    WHERE staffid = %s 
+    RETURNING staffid, name, role
     """
     params = (staff.name, staff.role, staff_id)
     try:
@@ -134,7 +134,7 @@ def update_staff(staff_id: int, staff: StaffCreate):
 @router.delete("/{staff_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_staff(staff_id: int):
     logger.info(f"DELETE /staff/{staff_id}")
-    query = "DELETE FROM staff WHERE staffID = %s RETURNING staffID"
+    query = "DELETE FROM staff WHERE staffid = %s RETURNING staffid"
     try:
         result = execute_query_single_row(query, (staff_id,))
     except Exception as e:
