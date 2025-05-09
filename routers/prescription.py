@@ -48,8 +48,8 @@ def create_prescription(prescription: PrescriptionCreate):
     RETURNING prescriptionid, patientid, physicianid, medication, dosage
     """
     params = (
-        prescription.patientID,
-        prescription.physicianID,
+        prescription.patientid,
+        prescription.physicianid,
         prescription.medication,
         prescription.dosage
     )
@@ -199,8 +199,8 @@ def update_prescription(prescription_id: int, prescription: PrescriptionCreate):
     RETURNING prescriptionid, patientid, physicianid, medication, dosage
     """
     params = (
-        prescription.patientID,
-        prescription.physicianID,
+        prescription.patientid,
+        prescription.physicianid,
         prescription.medication,
         prescription.dosage,
         prescription_id
